@@ -13,6 +13,7 @@ public class AddTwoNumbers {
         addTwoNumbers(l1, l2);
     }
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+//        Time: O(max(m,n)) where m-> l1 length, n-> l2 length, space: O(1)
         ListNode head = new ListNode(0);
         ListNode current = head;
         int carry = 0;

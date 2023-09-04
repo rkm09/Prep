@@ -3,7 +3,7 @@ package misc;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Football { // 5 -2 -4 9 5
+public class Baseball { // 5 -2 -4 9 5
     public static void main(String[] args) {
         String[] ops = "5 -2 4 C D 9 +".split(" ");
         int result = calPoints(ops);

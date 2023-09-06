@@ -10,7 +10,12 @@ public class AddTwoNumbers {
     public static void main(String[] args) {
         ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3, null)));
         ListNode l2 = new ListNode(5, new ListNode(6, new ListNode(4, null)));
-        addTwoNumbers(l1, l2);
+        ListNode resList = addTwoNumbers(l1, l2);
+        while(resList.next != null) {
+            System.out.println(resList.val);
+            resList = resList.next;
+        }
+        System.out.println(resList.val);
     }
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 //        Time: O(max(m,n)) where m-> l1 length, n-> l2 length, space: O(1)
@@ -30,6 +35,7 @@ public class AddTwoNumbers {
         }
         return head.next;
     }
+
 }
 
 class ListNode {

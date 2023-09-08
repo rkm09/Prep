@@ -25,21 +25,17 @@ public class MergeTwoSortedLists {
         while(list1 != null || list2 != null) {
             if(list1 != null && list2 != null) {
                 x = list1.val <= list2.val ? list1.val : list2.val;
-                current.next = new ListNode(x);
-                current = current.next;
-                list2 = (x == list2.val & x != list1.val) ? list2.next : list2;
+                list2 = (x != list1.val) ? list2.next : list2;
                 list1 = (x == list1.val) ? list1.next : list1;
             } else if(list1 == null) {
                 x = list2.val;
-                current.next = new ListNode(x);
-                current = current.next;
                 list2 = list2.next;
             } else {
                 x = list1.val;
-                current.next = new ListNode(x);
-                current = current.next;
                 list1 = list1.next;
             }
+            current.next = new ListNode(x);
+            current = current.next;
         }
         return head.next;
     }

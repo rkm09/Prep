@@ -11,7 +11,8 @@ public class MergeTwoSortedLists {
     public static void main(String[] args) {
         ListNode l1 = new ListNode(1, new ListNode(2, new ListNode(4)));
         ListNode l2 = new ListNode(1, new ListNode(3, new ListNode(4)));
-        ListNode resList = mergeTwoLists(l1, l2);
+//        ListNode resList = mergeTwoLists(l1, l2);
+        ListNode resList = mergeTwoListsRec(l1,l2);
         while(resList.next != null) {
             System.out.println(resList.val);
             resList = resList.next;
@@ -19,6 +20,7 @@ public class MergeTwoSortedLists {
         System.out.println(resList.val);
     }
     public static ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+//        time: O(m+n), space: O(1)
         ListNode head = new ListNode(0);
         ListNode current = head;
         int x = 0;
@@ -36,5 +38,22 @@ public class MergeTwoSortedLists {
         current.next = list1 == null ? list2 : list1;
         return head.next;
     }
+
+    public static ListNode mergeTwoListsRec(ListNode list1, ListNode list2) {
+        // time: O(m+n) , space: O(m+n)
+        if (list1 == null) {
+            return list2;
+        } else if (list2 == null) {
+            return list1;
+        } else if (list1.val < list2.val) {
+            list1.next = mergeTwoListsRec(list1.next, list2);
+            return list1;
+        } else {
+            list2.next = mergeTwoListsRec(list1, list2.next);
+            return list2;
+        }
+    }
+
 }
+
 

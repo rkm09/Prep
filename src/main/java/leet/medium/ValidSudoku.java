@@ -70,5 +70,6 @@ Input: board =
 ,[".",".",".","4","1","9",".",".","5"]
 ,[".",".",".",".","8",".",".","7","9"]]
 Output: true
-
+Time complexity: O(N2)O(N^2), because we need to traverse every position in the board, and each of the four check steps is an O(1)O(1)O(1) operation.
+Space complexity: O(N2)O(N^2), because in the worst-case scenario, if the board is full, we need a hash set each with size N to store all seen numbers for each of the N rows, N columns, and N boxes, respectively.
  */

@@ -37,4 +37,7 @@ Constraints:
 1 <= nums.length <= 6
 -10 <= nums[i] <= 10
 All the integers of nums are unique.
+
+Time Complexity: O(n⋅n!)
+Time complexity, better approximation: O(n2⋅(e⋅Γ(n+1,1)−n!))
  */

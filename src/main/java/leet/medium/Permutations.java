@@ -37,10 +37,14 @@ Constraints:
 1 <= nums.length <= 6
 -10 <= nums[i] <= 10
 All the integers of nums are unique.
+// we are essentially implementing a DFS traversal of an imaginary tree.
+// The children of a node are all the numbers that haven't been used yet.
 
 Time Complexity: O(n⋅n!)
 Given a set of length n, the number of permutations is n! (n factorial).
 There are n options for the first number, n−1 for the second, and so on.
+For each of the n! permutations, we need O(n) work to copy curr into the answer.
+This gives us O(n⋅n!) work.
 
 *** Time complexity, better approximation: O(n2⋅(e⋅Γ(n+1,1)−n!))
 

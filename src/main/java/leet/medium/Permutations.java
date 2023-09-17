@@ -39,5 +39,13 @@ Constraints:
 All the integers of nums are unique.
 
 Time Complexity: O(n⋅n!)
-Time complexity, better approximation: O(n2⋅(e⋅Γ(n+1,1)−n!))
+Given a set of length n, the number of permutations is n! (n factorial).
+There are n options for the first number, n−1 for the second, and so on.
+
+*** Time complexity, better approximation: O(n2⋅(e⋅Γ(n+1,1)−n!))
+
+Space Complexity: O(n)
+We don't count the answer as part of the space complexity.
+The extra space we use here is for curr and the recursion call stack.
+The depth of the call stack is equal to the length of curr, which is limited to n.
  */

@@ -7,9 +7,9 @@ public class ShortestPathLength {
         System.out.println(length);
     }
     public static int shortestPathLength(int[][] graph) {
-        
         return -1;
     }
+
 }
 
 /*

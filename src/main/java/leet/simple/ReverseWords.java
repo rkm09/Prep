@@ -1,15 +1,25 @@
 package leet.simple;
 
+import java.util.Arrays;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class ReverseWords {
     public static void main(String[] args) {
         String s = "God Ding";
         String s1 = "Let's take LeetCode contest";
-        String res = reverseWords(s);
+        String res = reverseWords2(s);
         System.out.println(res);
     }
-    public static String reverseWords(String s) {
+
+//    One liner but slower
+    public static String reverseWords2(String s) {
+        return Arrays.stream(s.split(" "))
+                .map(word -> new StringBuilder(word).reverse())
+                .collect(Collectors.joining(" "));
+    }
+
+    public static String reverseWords3(String s) {
         StringBuilder sb = new StringBuilder(s);
         String s1 = sb.reverse().toString();
         String[] sarr = s1.split(" ");

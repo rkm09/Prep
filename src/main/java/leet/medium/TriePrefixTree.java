@@ -11,3 +11,9 @@ public class TriePrefixTree {
         System.out.println(isPrefix);
     }
 }
+
+/*
+This problem focuses on building a basic Trie data structure and implementing its core functionalities.
+The core methods include inserting words into the Trie and searching for words or prefixes.
+It's a foundational problem that tests your ability to create and manipulate a Trie.
+ */

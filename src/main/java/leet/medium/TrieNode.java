@@ -21,9 +21,11 @@ public class TrieNode {
     public void put(char ch, TrieNode node) {
         links[ch - 'a'] = node;
     }
+
     public void setEnd() {
         isEnd = true;
     }
+
     public boolean isEnd() {
         return isEnd;
     }

@@ -49,18 +49,6 @@ public class Trie {
         TrieNode node = searchPrefix(prefix);
         return node != null;
     }
-
-    public int countWordsEqualTo(String word) {
-        return 0;
-    }
-
-    public int countWordsStartingWith(String word) {
-        return 0;
-    }
-
-    public void erase(String word) {
-
-    }
 }
 
 /*

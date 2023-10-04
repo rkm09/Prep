@@ -1,11 +1,11 @@
 package datastructures.hashmap;
 
-class HashNode {
+class MapNode {
 
     private int key;
     private int value;
 
-    HashNode(int key, int value) {
+    MapNode(int key, int value) {
         this.key = key;
         this.value = value;
     }

@@ -1,4 +1,4 @@
-package leet.medium;
+package datastructures.trie;
 
 // Prefix Tree
 public class Trie {

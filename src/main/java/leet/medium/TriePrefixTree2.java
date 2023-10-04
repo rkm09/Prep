@@ -1,5 +1,7 @@
 package leet.medium;
 
+import datastructures.trie.Trie2;
+
 public class TriePrefixTree2 {
     public static void main(String[] args) {
         Trie2 obj = new Trie2();

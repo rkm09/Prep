@@ -1,4 +1,4 @@
-package leet.medium;
+package datastructures.trie;
 
 public class TrieNode2 {
     TrieNode2[] links = new TrieNode2[26];

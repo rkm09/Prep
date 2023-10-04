@@ -1,4 +1,4 @@
-package leet.medium;
+package datastructures.trie;
 
 public class TrieNode {
     //    R links to node children

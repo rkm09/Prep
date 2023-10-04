@@ -3,26 +3,31 @@ package datastructures.hashmap;
 import java.util.LinkedList;
 
 public class HMap {
-    private final int SIZE = 1011;
-    private LinkedList<MapNode>[] hmap = null;
+//    large prime number to be our map size.
+    private final int SIZE = 2069;
+    private LinkedList<MapNode>[] hmap;
 
+//    Initialize in constructor.
     public HMap() {
         hmap = new LinkedList[SIZE];
     }
 
+//  Get: Returns the value to which the specified key is mapped or -1 if this map contains no mapping for the key.
     public int get(int key) {
         int bucketID = key % SIZE;
         if(hmap[bucketID] == null) return -1;
+//      Since we return here it is OK to modify the linked list in the foreach loop.
         for(MapNode node: hmap[bucketID]) {
             if(node.getKey() == key) return node.getValue();
         }
         return -1;
     }
-
+//  Put: Value will always be non-negative.
     public void put(int key, int value) {
         int bucketID = key % SIZE;
         if(hmap[bucketID] == null)
             hmap[bucketID] = new LinkedList<>();
+//  Since we return here it is OK to modify the linked list in the foreach loop.
         for(MapNode node : hmap[bucketID]) {
             if(node.getKey() == key) {
                 node.setValue(value);
@@ -33,6 +38,7 @@ public class HMap {
         hmap[bucketID].add(node);
     }
 
+//    Remove: Removes the mapping of the specified value key if this map contains a mapping for the key.
     public void remove(int key) {
         int bucketID = key % SIZE;
         if(hmap[bucketID] == null) return;

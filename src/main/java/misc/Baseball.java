@@ -2,7 +2,7 @@ package misc;
 
 import java.util.Stack;
 
-public class Baseball2 {
+public class Baseball {
     public static void main(String[] args) {
         String[] ops = {"5", "2", "C", "D", "+"};
         int res = calPoints(ops);

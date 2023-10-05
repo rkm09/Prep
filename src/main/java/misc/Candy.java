@@ -11,7 +11,7 @@ Output: 3
 return number of boxes if all same flavored candies distributed, else -1 (initial count 2*n) arrange into n such pairs
 such that each pair has the same flavor
  */
-public class Candy2 {
+public class Candy {
     public static void main(String[] args) {
         int[] jar = {5,8,5,8,8,8};
 //        int[] jar = {1,2,3,4};

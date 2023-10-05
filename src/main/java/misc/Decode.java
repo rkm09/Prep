@@ -1,9 +1,9 @@
 package misc;
 
-public class Decode2 {
+public class Decode {
     public static void main(String[] args) {
         int[] k = {1,2,3,4};
-        int x = -2;
+        int x = 2;
         int[] res = decode(k, x);
         for(int i : res) System.out.println(i);
     }

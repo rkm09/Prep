@@ -27,7 +27,6 @@ public class IntegerBreak {
 
 //    DP (bottom up - iterative) time: O(n^2), space: O(n)
     public static int integerBreak2(int n) {
-
         if(n < 4) return n - 1;
         int[] dp = new int[n+1];
         for(int i = 0 ; i < 4 ; i++) {

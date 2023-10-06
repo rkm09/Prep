@@ -1,10 +1,46 @@
 package leet.medium;
 
 public class IntegerBreak {
+    static int[] memo;
     public static void main(String[] args) {
         int n = 10;
-        int res = integerBreak4(n);
+        int res = integerBreak2(n);
         System.out.println(res);
+    }
+
+//    DP(top down - recursive) time: O(n^2), space: O(n)
+    public static int integerBreak1(int n) {
+        if(n < 4) return n-1;
+        memo = new int[n+1];
+        return dp(n);
+    }
+    public static int dp(int num) {
+        if(num <= 3) return num;
+        if(memo[num] != 0) return memo[num];
+        int res = num;
+        for(int i = 2; i < num ; i++) {
+            res = Math.max(res, i * dp(num - i));
+        }
+        memo[num] = res;
+        return res;
+    }
+
+//    DP (bottom up - iterative) time: O(n^2), space: O(n)
+    public static int integerBreak2(int n) {
+
+        if(n < 4) return n - 1;
+        int[] dp = new int[n+1];
+        for(int i = 0 ; i < 4 ; i++) {
+            dp[i] = i;
+        }
+        for(int num = 4 ; num <= n ; num++) {
+            int res = num ;
+            for(int i = 2 ; i < num ; i++) {
+                res = Math.max(res, i * dp[num - i]);
+            }
+            dp[num] = res;
+        }
+        return dp[n];
     }
 
 //    Math 1 time: O(n), space: O(1)
@@ -50,6 +86,35 @@ Constraints:
 
 =============================================
 DP:
+
+Let's say we have an integer num and split it into two integers: i and num - i. The highest product possible would be i * BEST, where BEST is the highest product possible from splitting up num - i.
+
+Notice that the variable BEST represents the original problem with a different input (num - i). This allows us to think in terms of dynamic programming. Let's define a function dp(num) that returns the highest possible product from splitting num up.
+
+We have the following base cases for this function:
+
+If num == 1, then it isn't possible to split the number up, so we just return 1.
+If num == 2, then it would be better to not split the number at all, since the only possible split 1 * 1 is less than 2, so just return 2. The exact same argument can be made for num == 3: the only possible split 1 * 2 is less than 3 itself, so just return 3.
+Otherwise, we have two options:
+
+Don't split the number up at all. We can initialize the answer as ans = num.
+Split the number. We can try all possible splits. Iterate i from 2 until num. For each value of i, try to update ans with i * dp(num - i) if it is larger.
+You may be thinking: what about the constraint where we need to have at least 2 integers? We need to check for 2 separate cases before performing the recursion.
+
+If n == 2, we immediately return 1. The only possible split is 1 * 1.
+If n == 3, we immediately return 2. The only possible split is 1 * 2.
+We need to explicitly check for these cases before going into the recursion, otherwise, we would incorrectly return a larger answer since we initialize ans = num.
+
+For all other values of n, the recursion will work. Take a look at the first few numbers:
+
+For num = 4, we can do 2 * 2 = 4, which is not less than 4 itself.
+For num = 5, we can do 2 * 3 = 6, which is not less than 5 itself.
+
+As you can see, as n increases, the product from splitting becomes larger and larger, and thus we will always satisfy the requirement of needing to perform at least one split. The only cases where performing a split results in a lower product is 2, 3.
+
+This solution will work, but you may notice that it will end up in a lot of duplicated computation. We will end up calculating many states multiple times. For example, if we called dp(15), it would make a call to dp(12) when calculating 3 * dp(12). If we later call dp(14), it will also make a call to dp(12) when calculating 2 * dp(12). To avoid computing the same states multiple times, we will use a technique called memoization. The first time we calculate dp(num), we will store the result. In the future, we can reference this result for num instead of having to recalculate it.
+
+
 
 Maths:
 Interestingly, it is optimal to only split n into 2 and 3! Why is this the case? The following is not a strict mathematical proof, but gives an intuition as to why we should only split n into 2 and 3.

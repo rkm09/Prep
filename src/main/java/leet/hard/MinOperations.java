@@ -9,6 +9,8 @@ public class MinOperations {
         int res = minOperations(nums);
         System.out.println(res);
     }
+
+//  Sliding Window approach
     public static int minOperations(int[] nums) {
         int len = nums.length;
         int ans = len;

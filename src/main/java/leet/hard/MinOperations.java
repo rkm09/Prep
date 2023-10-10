@@ -6,7 +6,7 @@ import java.util.HashSet;
 public class MinOperations {
     public static void main(String[] args) {
         int[] nums = {4,2,5,3};
-        int res = minOperations(nums);
+        int res = minOperations1(nums);
         System.out.println(res);
     }
 
@@ -35,6 +35,45 @@ public class MinOperations {
             ans = Math.min(ans, len - continuous);
         }
         return ans;
+    }
+
+//    binary search O(n log n), space: O(n)
+    public static int minOperations1(int[] nums) {
+        int len = nums.length;
+        int ans = len;
+//      remove duplicates
+        HashSet<Integer> unique = new HashSet<>();
+        for(int num : nums) unique.add(num);
+
+//      sort
+        int index = 0;
+        int[] newNums = new int[unique.size()];
+        for(int num : unique) newNums[index++] = num;
+        Arrays.sort(newNums);
+
+//      track contiguous
+        for(int i = 0 ; i < newNums.length ; i++) {
+            int left = newNums[i];
+            int right = left + len - 1;
+            int j = binarySearch(newNums, right);
+            int continuous = j - i;
+            ans = Math.min(ans, len - continuous);
+//       len - continuous gives the non contiguous
+        }
+        return ans;
+    }
+
+    public static int binarySearch(int[] newNums, int target) {
+        int left = 0;
+        int right = newNums.length;
+        while(left < right) {
+            int mid = (left + right) / 2;
+            if(target < newNums[mid]) {
+                right = mid;
+            } else
+                left = mid + 1;
+        }
+        return left;
     }
 }
 
@@ -83,13 +122,13 @@ Given n as the length of nums,
 Time complexity: O(n⋅log n)
 
 To remove duplicates and sort nums, we require O(n⋅log n) time.
-Then, we iterate over n indices and perform O(1) amortized work at each iteration. The while loop inside the for loop can only iterate at most nnn times total across all iterations of the for loop. Each element in newNums can only be iterated over once by this while loop.
+Then, we iterate over n indices and perform O(1) amortized work at each iteration. The while loop inside the for loop can only iterate at most n times total across all iterations of the for loop. Each element in newNums can only be iterated over once by this while loop.
 Despite this approach having the same time complexity as the previous approach (due to the sort), it is a slight practical improvement as the sliding window portion is O(n).
 
 Space complexity: O(n)
 We create a new array newNums of size O(n). Note that even if you were to modify the input directly, we still use O(n) space creating a hash set to remove duplicates. Also, it is considered a bad practice to modify the input, and many people will argue that modifying the input makes it part of the space complexity anyway.
 
-Sliding Window:
+Approach 1 : Sliding Window: (faster than A2)
 Algorithm
 
 Set n = nums.length and the answer ans = n.
@@ -101,4 +140,21 @@ Update ans with n - count if it is smaller.
 Return ans.
 
 Approach 2 : Binary Search
+Algorithm
+
+Set n = nums.length and the answer ans = n.
+Remove duplicates from nums and then sort it. We will call this new array newNums.
+Iterate i over the indices of newNums:
+Set left = newNums[i].
+Calculate right = left + n - 1.
+Calculate j, the insertion index of right in newNums using binary search.
+Calculate count = j - i, the number of elements already in our range.
+Update ans with n - count if it is smaller.
+Return ans.
+
+Complexity:
+Given n as the length of nums,
+Time complexity: O(n⋅log n)
+log n for binary search
+Space: O(n) as above
  */

@@ -104,5 +104,5 @@ Return ans.
 
 For each flower = [start, end], we indicated that at time start, we see one more flower, and at time end + 1, we see one less flower. We identified when a flower started blooming and when it finished blooming.
 the number of flowers we see is the number of flowers that have already started blooming minus the amount of flowers have finished blooming.
-Note that a flower = [start, end] stops blooming at end + 1, not end. There are two ways we can handle this. We can either binary search on end for the leftmost insertion index (since we want to include all flowers with end equal to the current time), or we can assemble ends using end + 1 for each flower. 
+Note that a flower = [start, end] stops blooming at end + 1, not end. There are two ways we can handle this. We can either binary search on end for the leftmost insertion index (since we want to include all flowers with end equal to the current time), or we can assemble ends using end + 1 for each flower.
 */

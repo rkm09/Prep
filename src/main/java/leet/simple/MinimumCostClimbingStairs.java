@@ -1,14 +1,43 @@
 package leet.simple;
 
+import java.util.HashMap;
+
 public class MinimumCostClimbingStairs {
+    private static HashMap<Integer, Integer> memo = new HashMap<>();
     public static void main(String[] args) {
         int[] cost = {10,15,10};
         int res = minCostClimbingStairs(cost);
         System.out.println(res);
     }
 
-//  Bottom up DP (iterative); Time: O(n), Space: O(n)
+//    bottom up, constant space; time: O(n), space: O(1) we just need the last two values (fastest)
     public static int minCostClimbingStairs(int[] cost) {
+        int downOne = 0;
+        int downTwo = 0;
+        for(int i = 2 ; i < cost.length + 1 ; i++) {
+            int temp = downOne;
+            downOne = Math.min(downOne + cost[i-1], downTwo + cost[i-2]);
+            downTwo = temp;
+        }
+        return downOne;
+    }
+
+//    Top Down DP (recursion + memoization); time: O(n), space: O(n)
+    public static int minCostClimbingStairs1(int[] cost) {
+        return minimumCost(cost.length, cost);
+    }
+
+    private static int minimumCost(int i, int[] cost) {
+        if(i <= 1) return 0;
+        if(memo.containsKey(i)) return memo.get(i);
+        int downOne = minimumCost(i-1, cost) + cost[i-1];
+        int downTwo = minimumCost(i-2, cost) + cost[i-2];
+        memo.put(i, Math.min(downOne, downTwo));
+        return memo.get(i);
+    }
+
+//  Bottom up DP (iterative); Time: O(n), Space: O(n)
+    public static int minCostClimbingStairs2(int[] cost) {
         // The array's length should be 1 longer than the length of cost
         // This is because we can treat the "top floor" as a step to reach
         int[] minimumCost = new int[cost.length + 1];

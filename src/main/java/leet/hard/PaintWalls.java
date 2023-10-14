@@ -54,4 +54,23 @@ Constraints:
 cost.length == time.length
 1 <= cost[i] <= 106
 1 <= time[i] <= 500
+
+Complexity Analysis
+
+Given nnn as the length of cost and time,
+
+Time complexity: O(n2)
+i ranges from 0 to n and remain ranges from n to 0. Each state is calculated only once due to memoization. To calculate a state, we simply check two options paint and dontPaint, which costs O(1).
+
+Space complexity: O(n2)
+We use some space for the recursion call stack, but it is dominated by the space used to memoize our function, which is equal to the number of states.
+
+Let dp(i, remain) be a function that returns the minimum cost to paint remain walls when considering index i and beyond. We have two base cases here.
+
+If remain <= 0, we have painted all the walls. We can return 0.
+If i == n, we have run out of walls to put the paid painter on and the task is impossible. We return a large value like infinity.
+Now, how do we calculate a given state (i, remain)? we have two options. We can either hire the paid painter for this wall or not hire them.
+
+If we hire them, as mentioned above, we spend cost[i] and paint 1 + time[i] walls. Then, we move to the next index. Thus, the cost of this option is cost[i] + dp(i + 1, remain - 1 - time[i]).
+If we don't hire them, we simply move to the next index. The cost of this option is dp(i + 1, remain).
  */

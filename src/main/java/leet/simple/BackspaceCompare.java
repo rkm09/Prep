@@ -5,17 +5,49 @@ import java.util.Stack;
 public class BackspaceCompare {
     public static void main(String[] args) {
         String s = "ab#c", t = "ad#c";
-        boolean res = backspaceCompare3(s, t);
+        boolean res = backspaceCompare1(s, t);
         System.out.println(res);
     }
 
-//    public static boolean backspaceCompare2(String s, String t) {
-//        Stack<Character> stack = new Stack<>();
-//        for(char c : s)
-//    }
+//    2 pointer; time: O(m+n), space: O(1)
+    public static boolean backspaceCompare1(String s, String t) {
+        int i = s.length() - 1 , j = t.length() - 1;
+        int skipS = 0 , skipT = 0;
+        while(i >= 0 ||  j >= 0) {
+            while(i >= 0) {
+                if (s.charAt(i) == '#') {
+                    skipS++;
+                    i--;
+                } else if (skipS > 0) {
+                    skipS--;
+                    i--;
+                }
+                else break;
+            }
+            while(j >= 0) {
+                if (t.charAt(j) == '#') {
+                    skipT++;
+                    j--;
+                } else if (skipT > 0) {
+                    skipT--;
+                    j--;
+                }
+                else break;
+            }
+//            without any hash overhead the char must be same
+            if((i >= 0 && j >= 0) && s.charAt(i) != t.charAt(j))
+                return false;
+//            one empty, the other non empty
+            if((i >= 0) != (j >= 0))
+                return false;
+            
+            i--;j--;
+        }
+        return true;
+    }
 
 //    via stack; time: O(m+n) where m & n is the length of s & t; space: O(m+n)
-    public static boolean backspaceCompare3(String s, String t) {
+    public static boolean backspaceCompare2(String s, String t) {
         return build(s).equals(build(t));
     }
     public static String build(String str) {

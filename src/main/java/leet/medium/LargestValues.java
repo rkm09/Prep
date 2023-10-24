@@ -12,7 +12,7 @@ public class LargestValues {
         TreeNode left = new TreeNode(2);
         TreeNode right = new TreeNode(3);
         TreeNode root = new TreeNode(1, left, right);
-        List<Integer> res = largestValues(root);
+        List<Integer> res = largestValues1(root);
         res.stream().forEach(System.out::println);
     }
 
@@ -40,6 +40,23 @@ public class LargestValues {
         }
 
         return ans;
+    }
+
+//    DFS same complexity as above
+    public static List<Integer> largestValues1(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        dfs(root, 0, res);
+        return res;
+    }
+    public static void dfs(TreeNode node, int depth, List<Integer> res) {
+        if(node == null) return;
+        if(depth == res.size()) {
+            res.add(node.val);
+        } else {
+            res.set(depth, Math.max(res.get(depth), node.val));
+        }
+        dfs(node.left, depth + 1, res);
+        dfs(node.right, depth + 1, res);
     }
 }
 

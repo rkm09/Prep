@@ -2,12 +2,9 @@ package leet.simple;
 
 public class PowerOfFour {
     public static void main(String[] args) {
-        int n = -16;
-        boolean res = isPowerOfFour1(n);
+        int n = 16;
+        boolean res = isPowerOfFour3(n);
         System.out.println(res);
-    }
-    public static boolean isPowerOfFour1(int n) {
-        return (n > 0) && ((n & (n - 1)) == 0) && ((n & 0xaaaaaaaa) == 0);
     }
 
 //  time: O(logn)
@@ -16,6 +13,27 @@ public class PowerOfFour {
         while(n % 4 == 0) n /= 4;
         return n == 1;
     }
+
+//    Bitwise; time: O(1), space: O(1) !! For Power of Two
+//    (x & (x-1)) == 0 only works with 1 bit set
+    public static boolean isPowerOfTwo(int n) {
+        if(n == 0) return false;
+        long x = (long) n;
+        return  (x & (x - 1)) == 0;
+    }
+
+//    Math; time: O(1), space: O(1)
+    public static boolean isPowerOfFour2(int n) {
+        return (n > 0) && (Math.log(n) / Math.log(2) % 2 == 0);
+    }
+
+//    Math; time: O(1), space: O(1)
+    public static boolean isPowerOfFour3(int n) {
+        return (n > 0) && ((n & (n - 1)) == 0) && (n % 3 == 1) ;
+    }
+
+
+
 }
 
 /*

@@ -5,15 +5,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class CorrectBinaryTree {
+    // Hash Set to store node value of the rightmost branch
+    private static HashSet<Integer> visited = new HashSet<>();
     public static void main(String[] args) {
         TreeNode right = new TreeNode(3);
         TreeNode left = new TreeNode(2, null, right);
         TreeNode root = new TreeNode(1, left, right);
-        TreeNode ans = correctBinaryTree(root);
+        TreeNode ans = correctBinaryTree1(root);
         System.out.println(ans.val);
         System.out.println(ans.left.val);
         System.out.println(ans.right.val);
     }
+
+//    BFS; time: O(n), space: O(n)
     public static TreeNode correctBinaryTree(TreeNode root) {
         // Queue for BFS. Every element stores [node, parent]
         Queue<TreeNode[]> queue = new LinkedList<>();
@@ -54,6 +58,25 @@ public class CorrectBinaryTree {
                 }
             }
         }
+        return root;
+    }
+
+//    DFS; time: O(n), space: O(n)
+    public static TreeNode correctBinaryTree1(TreeNode root) {
+    // Do Reverse Postorder Traversal(LeftRightRoot -> RootRightLeft). Assume input "root" as recursive parameter "node"
+        // If Empty Node, return
+        if(root == null) return null;
+        // If node.right is already visited, then the node is defective
+        // No need to build tree rooted at "node". Replace it with null
+        if(root.right != null && visited.contains(root.right.val))
+            return null;
+        // Add this node's value to the visited
+        visited.add(root.val);
+        // Recursively build tree rooted at "node"
+        // Build right subtree first, so that we can explore right to left
+        root.right = correctBinaryTree1(root.right);
+        root.left = correctBinaryTree1(root.left);
+        // Return root of the built tree
         return root;
     }
 }
@@ -112,4 +135,8 @@ Thus, processing one node takes O(1) time. Thus, processing all nodes takes O(N)
 Space complexity: O(N)
 
 The queue can have at most N nodes. The visited set can have at most N nodes. Thus, the overall space complexity is O(N).
+Implementation Note: We certainly need not save the node in the visited set. We can save the node.val only. Readers can appreciate that the node.val is sufficient to uniquely identify the node. We don't need to know about the structure of the toNode to solve the problem.
+
+DFS:
+
  */

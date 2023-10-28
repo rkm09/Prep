@@ -6,6 +6,8 @@ public class VowelPermutation {
         int res = countVowelPermutation(n);
         System.out.println(res);
     }
+
+//    Bottom up DP; time: O(n), space: O(1)
     public static int countVowelPermutation(int n) {
         long aCount = 1, eCount = 1, iCount = 1, oCount = 1, uCount = 1;
         int MOD = 1_000_000_007;

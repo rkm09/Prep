@@ -7,7 +7,7 @@ public class LongestPalindromeSeq {
         System.out.println(res);
     }
 
-    
+
 
 //    basic brute force :p ; time: O(n^3), space: O(1) [check window]
     public static String longestPalindrome(String s) {

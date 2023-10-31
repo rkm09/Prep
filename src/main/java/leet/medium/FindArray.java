@@ -20,6 +20,16 @@ public class FindArray {
         }
         return arr;
     }
+
+//    XOR props; time: O(n), space: O(1)
+//    Only use explicitly asked for; since it modifies the input
+    public static int[] findArray1(int[] pref) {
+        int n = pref.length;
+        for(int i = 1 ; i < n ; i++) {
+            pref[i] = pref[i] ^ pref[i-1];
+        }
+        return pref;
+    }
 }
 /*
 You are given an integer array pref of size n. Find and return the array arr of size n that satisfies:

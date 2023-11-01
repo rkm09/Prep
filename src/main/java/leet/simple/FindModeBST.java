@@ -13,11 +13,73 @@ public class FindModeBST {
         TreeNode leftOfRight = new TreeNode(2);
         TreeNode right = new TreeNode(2, leftOfRight, null);
         TreeNode root = new TreeNode(1, left, right);
-        TreeNode root1 = new TreeNode(0);
-        int[] res = findMode1(root1);
+//        TreeNode root1 = new TreeNode(0);
+        int[] res = findMode3(root);
         System.out.println(Arrays.toString(res));
     }
-//    bfs
+
+//    recursive dfs; time: O(n), space: O(n)
+    public static int[] findMode3(TreeNode root) {
+        Map<Integer, Integer> counter = new HashMap<>();
+        dfs(root, counter);
+
+        int maxFreq = 0;
+        for(int key : counter.keySet()) {
+            maxFreq = Math.max(maxFreq, counter.get(key));
+        }
+        List<Integer> resList = new ArrayList<>();
+        for(int key : counter.keySet()) {
+            if(maxFreq == counter.get(key))
+                resList.add(key);
+        }
+
+        int[] res = new int[resList.size()];
+        for(int i = 0 ; i < res.length ; i++) {
+            res[i] = resList.get(i);
+        }
+        return res;
+    }
+
+
+//    bfs; time: O(n), space: O(n)
+    public static int[] findMode2(TreeNode root) {
+        Map<Integer, Integer> counter = new HashMap<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while(!queue.isEmpty()) {
+            TreeNode node = queue.remove();
+            counter.put(node.val, counter.getOrDefault(node.val, 0) + 1);
+            if(node.left != null) {
+                queue.add(node.left);
+            }
+            if(node.right != null) {
+                queue.add(node.right);
+            }
+        }
+
+        int maxFreq = 0;
+        for(int key : counter.keySet()) {
+            maxFreq = Math.max(maxFreq, counter.get(key));
+        }
+
+        List<Integer> resList = new ArrayList<>();
+        for(int key : counter.keySet()) {
+            if(maxFreq == counter.get(key))
+                resList.add(key);
+        }
+
+        int[] res = new int[resList.size()];
+        for(int i = 0 ; i < res.length ; i++) {
+            res[i] = resList.get(i);
+        }
+        return res;
+
+    }
+
+
+//    Our solutions ....
+//    bfs; time: O(n), space: O(n)
     public static int[] findMode(TreeNode root) {
         HashMap<Integer, Integer> hmode = new HashMap<>();
         Queue<TreeNode> queue = new LinkedList<>();
@@ -57,7 +119,7 @@ public class FindModeBST {
         return res;
     }
 
-//    dfs
+//    recursive dfs; time: O(n), space: O(n)
     public static int[] findMode1(TreeNode root) {
         hmodes.put(root.val, 0);
         dfs(root);

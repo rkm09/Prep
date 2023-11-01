@@ -39,7 +39,9 @@ public class FindModeBST {
         }
         return res;
     }
-
+    public static void dfs(TreeNode node, Map<Integer, Integer> counter) {
+        
+    }
 
 //    bfs; time: O(n), space: O(n)
     public static int[] findMode2(TreeNode root) {

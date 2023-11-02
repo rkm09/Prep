@@ -14,8 +14,41 @@ public class FindModeBST {
         TreeNode right = new TreeNode(2, leftOfRight, null);
         TreeNode root = new TreeNode(1, left, right);
 //        TreeNode root1 = new TreeNode(0);
-        int[] res = findMode3(root);
+        int[] res = findMode4(root);
         System.out.println(Arrays.toString(res));
+    }
+
+//    iterative dfs; time: O(n), space: O(n)
+    public static int[] findMode4(TreeNode root) {
+        Map<Integer, Integer> counter = new HashMap<>();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while(!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            counter.put(node.val, counter.getOrDefault(node.val, 0) + 1);
+            if(node.left != null){
+                stack.push(node.left);
+            }
+            if(node.right != null) {
+                stack.push(node.right);
+            }
+        }
+        int maxFreq = 0;
+        for(int key : counter.keySet()) {
+            maxFreq = Math.max(maxFreq, counter.get(key));
+        }
+
+        List<Integer> resList = new ArrayList<>();
+        for(int key : counter.keySet()) {
+            if(counter.get(key) == maxFreq) {
+                resList.add(key);
+            }
+        }
+        int[] res = new int[resList.size()];
+        for(int i = 0 ; i < resList.size() ; i++) {
+            res[i] = resList.get(i);
+        }
+        return res;
     }
 
 //    recursive dfs; time: O(n), space: O(n)
@@ -40,7 +73,10 @@ public class FindModeBST {
         return res;
     }
     public static void dfs(TreeNode node, Map<Integer, Integer> counter) {
-        
+        if(node == null) return;
+        counter.put(node.val, counter.getOrDefault(node.val, 0) + 1);
+        dfs(node.left, counter);
+        dfs(node.right, counter);
     }
 
 //    bfs; time: O(n), space: O(n)

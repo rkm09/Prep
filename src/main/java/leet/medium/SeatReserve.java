@@ -1,5 +1,6 @@
 package leet.medium;
 
+import java.util.PriorityQueue;
 import java.util.TreeSet;
 
 public class SeatReserve {
@@ -10,6 +11,30 @@ public class SeatReserve {
         seatManager.unreserve(1);
 
         System.out.println(res1);
+    }
+}
+
+// Using Min heap; time: O(mlogn), space: O(n)
+class SeatManager1 {
+    int marker;
+    PriorityQueue<Integer> availableSeats;
+    public SeatManager1(int n) {
+        marker = 1;
+        availableSeats = new PriorityQueue<>();
+    }
+
+    public int reserve() {
+        if(!availableSeats.isEmpty()) {
+            int seatNumber = availableSeats.poll();
+            return seatNumber;
+        }
+        int seatNumber = marker;
+        marker++;
+        return seatNumber;
+    }
+
+    public void unreserve(int seatNumber) {
+        availableSeats.offer(seatNumber);
     }
 }
 
@@ -97,7 +122,7 @@ Time complexity: O(m⋅logn)
 While initializing the SeatManager object, we perform constant time operations.
 In the reserve() method, we pop the minimum-valued element from the availableSeats set which takes O(logn) time.
 In the unreserve(seatNumber) method, we push the seatNumber into the availableSeats set which will also take O(logn) time.
-There are a maximum of mmm calls to reserve() or unreserve() methods, thus the overall time complexity isO(m⋅logn).
+There are a maximum of m calls to reserve() or unreserve() methods, thus the overall time complexity isO(m⋅logn).
 Space complexity: O(n)
 
 The availableSeats set can contain nnn elements in it. So in the worst case, it will take O(n) space.

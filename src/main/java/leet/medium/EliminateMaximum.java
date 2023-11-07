@@ -1,6 +1,7 @@
 package leet.medium;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 public class EliminateMaximum {
     public static void main(String[] args) {
@@ -10,7 +11,8 @@ public class EliminateMaximum {
         System.out.println(res);
     }
 
-//    sort by arrival time;
+
+//    sort by arrival time; time: O(nlogn), space: O(n)
     public static int eliminateMaximum(int[] dist, int[] speed) {
         double[] arrival = new double[dist.length];
         for(int i = 0 ; i < dist.length ; i++) {
@@ -20,6 +22,22 @@ public class EliminateMaximum {
         int ans = 0;
         for(int i = 0 ; i < arrival.length ; i++) {
             if(arrival[i] <= i) {
+                break;
+            }
+            ans++;
+        }
+        return ans;
+    }
+
+    //    heap; time: O(nlogn), space: O(n)
+    public static int eliminateMaximum1(int[] dist, int[] speed) {
+        PriorityQueue<Double> heap = new PriorityQueue();
+        for(int i = 0 ; i < dist.length ; i++) {
+            heap.add((double) dist[i] / speed[i]);
+        }
+        int ans = 0;
+        while(!heap.isEmpty()) {
+            if(heap.remove() <= ans) {
                 break;
             }
             ans++;

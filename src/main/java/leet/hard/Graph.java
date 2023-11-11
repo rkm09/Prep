@@ -109,4 +109,10 @@ initialization: O(V^2)
 We initialize a 2-D adjacency matrix that stores the minimum cost between all vertices.
 addEdge: O(1). We will not need any extra space to add an edge.
 shortestPath: O(1). We will not need any extra space to return the cost of the shortest path.
+
+Notes:
+If there is a significant imbalance between the frequency of shortestPath calls compared to the frequency of addEdge calls, the choice between using the Floyd-Warshall algorithm and Dijkstra's algorithm should be based on the number of times these two operations are performed:
+
+When shortestPath is called much more often than addEdge, it is more efficient to utilize the Floyd-Warshall algorithm.
+Conversely, if addEdge is called significantly more often than shortestPath, it is more practical to employ Dijkstra's algorithm for this problem.
  */

@@ -115,4 +115,13 @@ If there is a significant imbalance between the frequency of shortestPath calls 
 
 When shortestPath is called much more often than addEdge, it is more efficient to utilize the Floyd-Warshall algorithm.
 Conversely, if addEdge is called significantly more often than shortestPath, it is more practical to employ Dijkstra's algorithm for this problem.
+
+Floyd-Warshall Algorithm:
+
+After initializing the adjacency matrix, we apply the Floyd-Warshall algorithm to compute the shortest paths between all pairs of nodes.
+We use three nested loops:
+The outermost loop iterates over all intermediate nodes (indexed by i).
+The middle loop iterates over all source nodes (indexed by j).
+The innermost loop iterates over all destination nodes (indexed by k).
+During each iteration, we update the entry adj_matrix[j][k] by taking the minimum of its current value and the sum of the values adj_matrix[j][i] and adj_matrix[i][k]. This represents the minimum cost to reach node k from node j via an intermediate node i.
  */

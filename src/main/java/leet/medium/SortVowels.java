@@ -7,11 +7,36 @@ import java.util.List;
 public class SortVowels {
     public static void main(String[] args) {
         String s = "lEetcOde";
-        System.out.println(s);
+        System.out.println(sortVowels(s));
+    }
+
+//    count sorting; time: O(n), space: O(1)
+    public static String sortVowels(String s) {
+         int[] count = new int[256];
+         for(char c : s.toCharArray()) {
+             if(isVowel(c)) {
+                 count[c - 'A']++;
+             }
+         }
+         String sortedVowel = "AEIOUaeiou";
+         int j = 0;
+         StringBuilder sb = new StringBuilder();
+         for(int i = 0 ; i < s.length() ; i++) {
+             if(!isVowel(s.charAt(i))) {
+                 sb.append(s.charAt(i));
+             } else {
+                 while(count[sortedVowel.charAt(j) - 'A'] == 0) {
+                     j++;
+                 }
+                 sb.append(sortedVowel.charAt(j));
+                 count[sortedVowel.charAt(j) - 'A']--;
+             }
+         }
+         return sb.toString();
     }
 
 //    sorting; time: O(n logn), space: O(n)
-    public static String sortVowels(String s) {
+    public static String sortVowels1(String s) {
         List<Character> temp = new ArrayList<>();
         for(char c : s.toCharArray()) {
             if(isVowel(c)) {

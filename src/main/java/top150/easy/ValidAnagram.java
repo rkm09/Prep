@@ -6,7 +6,7 @@ public class ValidAnagram {
     public static void main(String[] args) {
         String s = "anagram";
         String t = "nagaram";
-        System.out.println(isAnagram2(s, t));
+        System.out.println(isAnagram1(s, t));
     }
 
 //    time: O(n), space: O(1)

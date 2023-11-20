@@ -1,15 +1,33 @@
 package leet.medium;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class GarbageCollector {
     public static void main(String[] args) {
         String[] garbage = {"G","P","GP","GG"};
         int[] travel = {2,4,3};
-        System.out.println(garbageCollection(garbage, travel));
+        System.out.println(garbageCollection1(garbage, travel));
     }
+
+//    without hashmap
+    public static int garbageCollection1(String[] garbage, int[] travel) {
+        Set<Character> hset = new HashSet<>();
+        int n = garbage.length;
+        int res = 0;
+        for(int i = n - 1 ; i >= 0 ; i--) {
+            for(char ch : garbage[i].toCharArray()) {
+                if(!hset.contains(ch)) {
+                    hset.add(ch);
+                }
+            }
+            res += garbage[i].length();
+            res += (i > 0) ? hset.size() * travel[i-1] : 0;
+        }
+        return res;
+    }
+
+//    hashmap; time: O(n*k) where n->number of house & k is the number of garbage trucks, space: O(n)
+//    did this default :P...runtime not great
     public static int garbageCollection(String[] garbage, int[] travel) {
         int count = 0;
         int n = garbage.length;

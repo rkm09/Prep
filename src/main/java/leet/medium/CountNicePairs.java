@@ -80,4 +80,13 @@ Constraints:
 
 1 <= nums.length <= 105
 0 <= nums[i] <= 109
+
+In this problem, we are presented with the following formula:
+nums[i] + rev(nums[j]) == nums[j] + rev(nums[i])
+Let's denote x = nums[i] and y = nums[j] and rewrite the formula:
+x + rev(y) == y + rev(x)
+Now, let's rearrange the formula so that all terms involving x are on one side and all terms involving y are on the other:
+x - rev(x) == y - rev(y)
+We have simplified the problem. As you can see, for a given num, we are interested in num - rev(num). Let's define a new array arr with the same length as nums where:
+arr[i] = nums[i] - rev(nums[i])
  */

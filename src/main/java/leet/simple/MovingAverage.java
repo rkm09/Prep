@@ -1,7 +1,6 @@
 package leet.simple;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.*;
 
 public class MovingAverage {
     int size, sum, count;
@@ -21,9 +20,27 @@ public class MovingAverage {
     }
 }
 
+class MovingAverage1 {
+    int size;
+    List<Integer> queue;
+    public MovingAverage1(int size) {
+        this.size = size;
+        queue = new ArrayList<>();
+    }
+//    slowest; time: O(n), space: O(n)
+    public double next(int val) {
+        int sum = 0;
+        queue.add(val);
+        for(int i = Math.max(queue.size() - size,0); i < queue.size() ; i++) {
+            sum += queue.get(i);
+        }
+        return sum * 1.0 / Math.min(size, queue.size());
+    }
+}
+
 class TestMA {
     public static void main(String[] args) {
-        MovingAverage movingAverage = new MovingAverage(3);
+        MovingAverage1 movingAverage = new MovingAverage1(3);
         System.out.println(movingAverage.next(1));
         System.out.println(movingAverage.next(10));
         System.out.println(movingAverage.next(3));

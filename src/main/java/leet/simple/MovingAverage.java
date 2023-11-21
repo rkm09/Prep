@@ -2,10 +2,30 @@ package leet.simple;
 
 import java.util.*;
 
+// circular queue; time: O(1), space: O(n)
 public class MovingAverage {
+    int size, head, windowSum, count;
+    int[] cqueue;
+    public MovingAverage(int size) {
+        this.size = size;
+        head = 0; windowSum = 0; count = 0;
+        cqueue = new int[size];
+    }
+    public double next(int val) {
+        ++count;
+        int tail = (head + 1) % size;
+        windowSum += val - cqueue[tail];
+        head = (head + 1) % size;
+        cqueue[head] = val;
+        return windowSum * 1.0 / Math.min(size, count);
+    }
+}
+
+// Dequeue
+class MovingAverage1 {
     int size, sum, count;
     Queue<Integer> deque;
-    public MovingAverage(int size) {
+    public MovingAverage1(int size) {
         this.size = size;
         sum = 0; count = 0;
         deque = new ArrayDeque<>();
@@ -20,10 +40,11 @@ public class MovingAverage {
     }
 }
 
-class MovingAverage1 {
+// Queue
+class MovingAverage2 {
     int size;
     List<Integer> queue;
-    public MovingAverage1(int size) {
+    public MovingAverage2(int size) {
         this.size = size;
         queue = new ArrayList<>();
     }
@@ -40,7 +61,7 @@ class MovingAverage1 {
 
 class TestMA {
     public static void main(String[] args) {
-        MovingAverage1 movingAverage = new MovingAverage1(3);
+        MovingAverage movingAverage = new MovingAverage(3);
         System.out.println(movingAverage.next(1));
         System.out.println(movingAverage.next(10));
         System.out.println(movingAverage.next(3));
@@ -78,4 +99,10 @@ Constraints:
 1 <= size <= 1000
 -105 <= val <= 105
 At most 104 calls will be made to next.
+
+
+The major advantage of circular queue is that by adding a new element to a full circular queue, it automatically discards the oldest element. Unlike deque, we do not need to explicitly remove the oldest element.
+Another advantage of circular queue is that a single index suffices to keep track of both ends of the queue, unlike deque where we have to keep a pointer for each end.
+tail=(head+1)modsize
+
  */

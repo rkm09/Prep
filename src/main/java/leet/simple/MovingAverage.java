@@ -1,24 +1,23 @@
 package leet.simple;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 public class MovingAverage {
-    int size;
-    List<Integer> window;
+    int size, sum, count;
+    Queue<Integer> deque;
     public MovingAverage(int size) {
         this.size = size;
-        window = new ArrayList<>();
+        sum = 0; count = 0;
+        deque = new ArrayDeque<>();
     }
+//  time: O(1), space: O(n)
     public double next(int val) {
-        window.add(val);
-        int windowSize = window.size() < size ? window.size() : size;
-        int idx = window.size() - 1;
-        int windowSum = 0, counter = 0;
-        while(counter++ < windowSize) {
-            windowSum += window.get(idx--);
-        }
-        return (double) windowSum / windowSize;
+        count++;
+        deque.add(val);
+        int out = (size < count) ? deque.poll() : 0;
+        sum += val - out;
+        return sum * 1.0 / Math.min(size, count);
     }
 }
 

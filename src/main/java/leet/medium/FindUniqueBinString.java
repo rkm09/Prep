@@ -1,9 +1,12 @@
 package leet.medium;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class FindUniqueBinString {
     public static void main(String[] args) {
         String[] nums = {"111","011","001"};
-        String ans = findDifferentBinaryString(nums);
+        String ans = findDifferentBinaryString1(nums);
         System.out.println(ans);
     }
 
@@ -15,6 +18,25 @@ public class FindUniqueBinString {
             ans.append(curr == '0' ? '1' : '0');
         }
         return ans.toString();
+    }
+
+//    time: O(n^2) [iterate num in range(n) then if found convert to binary(n) => n^2], space: O(n)
+    public static String findDifferentBinaryString1(String[] nums) {
+        Set<Integer> integers = new HashSet<>();
+        for(String num : nums) {
+            integers.add(Integer.parseInt(num, 2));
+        }
+        int n = nums.length;
+        for(int num = 0 ; num <= n ; num++) {
+            if(!integers.contains(num)) {
+                String ans = Integer.toBinaryString(num);
+                while(ans.length() < n) {
+                    ans = "0" + ans;
+                }
+                return ans;
+            }
+        }
+        return "";
     }
 }
 

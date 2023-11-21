@@ -8,7 +8,7 @@ public class ReductionOperations {
         System.out.println(reductionOperations(nums));
     }
 
-//    time: O(nlogn), space: O(logn)
+//    time: O(nlogn), space: O(logn) sorting with quick sort variant
     public static int reductionOperations(int[] nums) {
         Arrays.sort(nums);
         int count = 0;
@@ -41,27 +41,15 @@ Explanation: It takes 3 operations to make all elements in nums equal:
 3. largest = 3 at index 2. nextLargest = 1. Reduce nums[2] to 1. nums = [1,1,1].
 Example 2:
 
-Input: nums = [1,1,1]
-Output: 0
-Explanation: All elements in nums are already equal.
-Example 3:
-
-Input: nums = [1,1,2,2,3]
-Output: 4
-Explanation: It takes 4 operations to make all elements in nums equal:
-1. largest = 3 at index 4. nextLargest = 2. Reduce nums[4] to 2. nums = [1,1,2,2,2].
-2. largest = 2 at index 2. nextLargest = 1. Reduce nums[2] to 1. nums = [1,1,1,2,2].
-3. largest = 2 at index 3. nextLargest = 1. Reduce nums[3] to 1. nums = [1,1,1,1,2].
-4. largest = 2 at index 4. nextLargest = 1. Reduce nums[4] to 1. nums = [1,1,1,1,1].
-
-
 Constraints:
 
 1 <= nums.length <= 5 * 104
 1 <= nums[i] <= 5 * 104
-Accepted
-35.3K
-Submissions
-52K
+
+The problem description describes the following process:
+Find the largest value
+Decrease it to the second largest unique value
+Repeat
+The termination condition is when all elements are equal. However, you may notice that in the end, the elements will always be equal to the original minimum element. Thus, we can reframe the problem as "How many operations are required to reduce every number to the minimum element?
 
  */

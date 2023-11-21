@@ -1,12 +1,13 @@
 package leet.medium;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class FindUniqueBinString {
     public static void main(String[] args) {
         String[] nums = {"111","011","001"};
-        String ans = findDifferentBinaryString1(nums);
+        String ans = findDifferentBinaryString3(nums);
         System.out.println(ans);
     }
 
@@ -20,13 +21,14 @@ public class FindUniqueBinString {
         return ans.toString();
     }
 
-//    time: O(n^2) [iterate num in range(n) then if found convert to binary(n) => n^2], space: O(n)
+//  iterative; time: O(n^2) [iterate num in range(n) then if found convert to binary(n) => n^2], space: O(n)
     public static String findDifferentBinaryString1(String[] nums) {
         Set<Integer> integers = new HashSet<>();
         for(String num : nums) {
             integers.add(Integer.parseInt(num, 2));
         }
         int n = nums.length;
+//        considering n+1 combination (0-n) atleast 1 will not be present
         for(int num = 0 ; num <= n ; num++) {
             if(!integers.contains(num)) {
                 String ans = Integer.toBinaryString(num);
@@ -37,6 +39,48 @@ public class FindUniqueBinString {
             }
         }
         return "";
+    }
+
+//    random; slower than the other two
+    public static String findDifferentBinaryString2(String[] nums) {
+        Set<Integer> integers = new HashSet<>();
+        for(String num : nums) {
+            integers.add(Integer.parseInt(num, 2));
+        }
+        Random rand = new Random();
+        int ans = Integer.parseInt(nums[0], 2);
+        int n = nums.length;
+        while(integers.contains(ans)) {
+            ans = rand.nextInt((int) Math.pow(2, n));
+        }
+        String str = Integer.toBinaryString(ans);
+        while(str.length() < n) {
+            str = "0" + str;
+        }
+        return str;
+    }
+
+//    time: O(n^2), space: O(n)
+    public static String findDifferentBinaryString3(String[] nums) {
+        int n = nums.length;
+        Set<String> numSet = new HashSet<>();
+        for(String num : nums) {
+            numSet.add(num);
+        }
+        return generate("", numSet, n);
+    }
+    private static String generate(String curr, Set<String> numSet, int n) {
+        if(curr.length() == n) {
+            if(!numSet.contains(curr)) {
+                return curr;
+            }
+            return "";
+        }
+        String addZero = generate(curr + "0", numSet, n);
+        if(addZero.length() > 0) {
+            return addZero;
+        }
+        return generate(curr + "1", numSet, n);
     }
 }
 
@@ -82,5 +126,25 @@ ans differs from nums[n - 1] in nums[n - 1][n - 1].
 Thus, it is guaranteed that ans does not appear in nums and is a valid answer.
 
 This strategy is applicable because both the length of ans and the length of each string in nums are larger than or equal to n, the number of strings in nums. Therefore, we can find one unique position for each string in nums.
+
+Complexity Analysis for recursion:
+Given n as the length of nums (and the length of each binary string)
+Time complexity: O(n^2)
+We require O(n^2)to convert nums to a hash set.
+
+Due to the optimization, we check O(n) binary strings in our recursion. At each call, we perform some string concatenation operations, which costs up to O(n)O(n)O(n) (unless you have mutable strings like in C++).
+Space complexity: O(n)
+The recursion call stack when generating strings grows to a size of O(n). The hash set uses O(n) space.
+
+Complexity Analysis for rand:
+
+Given n as the length of nums (and the length of each binary string),
+Time complexity: O(∞)
+Technically, the worst-case scenario would see the algorithm running infinitely, always selecting elements in integers. However, the probability that the algorithm runs for more than a few steps, let alone infinitely, is so low that we can assume it to be effectively 0. This probability also lowers exponentially as n increases.
+For n = 16, there is an over 99.9% chance that we find an answer on the first iteration. For n = 20, we have an over 99.998% chance. Practically, this algorithm runs extremely quickly.
+Space complexity: O(n)
+The hash set integers has a size of nnn.
+We don't count the answer as part of the space complexity.
+
 
  */

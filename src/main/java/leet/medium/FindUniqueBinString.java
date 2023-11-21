@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class FindUniqueBinString {
     public static void main(String[] args) {
-        String[] nums = {"111","011","001"};
+        String[] nums = {"111","011","000"};
         String ans = findDifferentBinaryString3(nums);
         System.out.println(ans);
     }

@@ -1,14 +1,14 @@
 package top150.easy;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class SingleNumber {
     public static void main(String[] args) {
         int[] nums = {2,2,3,4,4};
-        System.out.println(singleNumber(nums));
+        System.out.println(singleNumber1(nums));
     }
 
-//    bit manipulation; time: O(n), space: O(1) meets both requirements
+//    bit manipulation; time: O(n), space: O(1) meets both requirements (best)
     public static int singleNumber(int[] nums) {
         int ans = 0;
         for(int num : nums) {
@@ -17,7 +17,37 @@ public class SingleNumber {
         return ans;
     }
 
-//    time: O(nlogn) that way not really linear def :p
+//    math; time: O(n), space: O(n) concept (2∗(a+b+c)−(a+a+b+b+c)=c)
+    public static int singleNumber1(int[] nums) {
+        Set<Integer> hset = new HashSet<>();
+        int sumOfSet = 0, sumOfNums = 0;
+        for(int num : nums) {
+            if(!hset.contains(num)) {
+                hset.add(num);
+                sumOfSet += num;
+            }
+            sumOfNums += num;
+        }
+        return 2 * sumOfSet - sumOfNums;
+    }
+
+//    hashmap; time: O(n), space: O(n)
+    public static int singleNumber2(int[] nums) {
+        Map<Integer, Integer> hcount = new HashMap<>();
+        int n = nums.length;
+        for(int i = 0 ; i < n ; i++) {
+            hcount.put(nums[i], hcount.getOrDefault(nums[i], 0) + 1);
+        }
+        for(int key : hcount.keySet()) {
+            if(hcount.get(key) == 1) {
+//                or != %2 either way same
+                return key;
+            }
+        }
+        return 0;
+    }
+
+//    sorting; time: O(nlogn) that way not really linear def :p
     public static int singleNumberX(int[] nums) {
         Arrays.sort(nums);
         int n = nums.length;

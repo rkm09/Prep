@@ -1,5 +1,8 @@
 package leet.medium;
 
+
+import datastructures.pair.Pair;
+
 import java.util.*;
 
 public class FindDiagonalOrder {
@@ -17,9 +20,33 @@ public class FindDiagonalOrder {
         System.out.println(Arrays.toString(diag));
     }
 
+//   single pass bfs; time: O(n), space: O(sqrt n)
+    public static int[] findDiagonalOrder(List<List<Integer>> nums) {
+        Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
+        queue.offer(new Pair(0,0));
+        List<Integer> ans = new ArrayList<>();
+        while(!queue.isEmpty()){
+            Pair<Integer, Integer> pair = queue.poll();
+            int row = pair.getKey();
+            int col = pair.getValue();
+            ans.add(nums.get(row).get(col));
+            if(col == 0 && row + 1 < nums.size()) {
+                queue.offer(new Pair(row + 1, col));
+            }
+            if(col + 1 < nums.get(row).size()) {
+                queue.offer(new Pair(row, col + 1));
+            }
+        }
+        int[] result = new int[ans.size()];
+        for(int i = 0 ; i < result.length ; i++) {
+            result[i] = ans.get(i);
+        }
+        return result;
+    }
+
 //    time: O(n) since length is fixed based on constraint (is not r*c), space: O(n)
 //    we iterate through each of the n integers to populate groups & then iterate again to populate ans
-    public static int[] findDiagonalOrder(List<List<Integer>> nums) {
+    public static int[] findDiagonalOrder1(List<List<Integer>> nums) {
         Map<Integer, List<Integer>> groups = new HashMap<>();
         int rowSize = nums.size();
         int diagSize = 0;

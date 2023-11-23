@@ -13,28 +13,27 @@ public class CheckArithmeticSubArrays {
         System.out.println(res);
     }
 
-//    def :p
+//    sort and check; time: O(m.n.logn), space: O(n)
     public static List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
         List<Boolean> res = new ArrayList<>();
         for(int i = 0 ; i < l.length ; i++) {
-            int idx1 = l[i];
-            int idx2 = r[i];
-            int[] subArr = new int[idx2-idx1+1];
-            int idx = 0;
-            for(int j = idx1 ; j <= idx2 ; j++) {
-                subArr[idx++] = nums[j];
+            int[] subArr = new int[r[i]-l[i]+1];
+            for(int j = 0 ; j < subArr.length ; j++) {
+                subArr[j] = nums[j + l[i]];
             }
-            Arrays.sort(subArr);
-            int diff = subArr[1] - subArr[0];
-            boolean flag = true;
-            for(int k = 2 ; k < subArr.length ; k++) {
-                if(subArr[k] - subArr[k-1] != diff) {
-                    flag = false;
-                }
-            }
-            res.add(flag);
+            res.add(check(subArr));
         }
         return res;
+    }
+    public static boolean check(int[] arr) {
+        Arrays.sort(arr);
+        int diff = arr[1] - arr[0];
+        for(int k = 2 ; k < arr.length ; k++) {
+            if(arr[k] - arr[k-1] != diff) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
@@ -66,4 +65,17 @@ m == r.length
 1 <= m <= 500
 0 <= l[i] < r[i] < n
 -105 <= nums[i] <= 105
+
+sort:
+Complexity Analysis
+
+Given n as the length of nums and mmm as the length of l and r,
+Time complexity: O(m⋅n⋅logn)
+
+There are m queries. In the worst-case scenario, each query would have r[i] - l[i] = O(n), representing an array of size O(n).
+Then, we would require O(n) to create arr, O(n⋅logn) to sort arr, and O(n) to iterate over arr.
+Thus, in the worst-case scenario, each of the mmm queries costs O(n⋅logm).
+Space complexity: O(n)
+We create arr, which may use up to O(n) space.
+
  */

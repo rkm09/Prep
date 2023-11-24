@@ -1,12 +1,17 @@
 package leet.medium;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Deque;
 
 public class MaximumCoins {
     public static void main(String[] args) {
         int[] nums = {2,4,1,2,7,8};
-        System.out.println(maxCoins(nums));
+//        1,2,2,4,7,8
+        System.out.println(maxCoins2(nums));
     }
+
+//   sort; time: O(nlogn), space: O(logn) (def)
     public static int maxCoins(int[] piles) {
         Arrays.sort(piles);
         int ans = 0;
@@ -18,6 +23,35 @@ public class MaximumCoins {
         }
         return ans;
     }
+
+//   sort; time: O(nlogn), space: O(logn)
+    public static int maxCoins1(int[] piles) {
+        Arrays.sort(piles);
+        int ans = 0;
+        int i = piles.length/3, j = piles.length;
+        while(i < j) {
+            ans += piles[i];
+            i += 2;
+        }
+        return ans;
+    }
+
+//    deque; time: O(nlogn), space: O(n)
+    public static int maxCoins2(int[] piles) {
+        Arrays.sort(piles);
+        int ans = 0;
+        Deque<Integer> deque = new ArrayDeque();
+        for(int num : piles) {
+            deque.addLast(num);
+        }
+        while(!deque.isEmpty()) {
+            deque.removeLast();
+            ans += deque.removeLast();
+            deque.removeFirst();
+        }
+        return ans;
+    }
+
 }
 
 /*

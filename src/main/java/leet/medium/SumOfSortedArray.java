@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class SumOfSortedArray {
     public static void main(String[] args) {
         int[] nums = {2,3,5};
-        System.out.println(Arrays.toString(getSumAbsoluteDifferences(nums)));
+        System.out.println(Arrays.toString(getSumAbsoluteDifferences1(nums)));
     }
 
 //    on the fly prefix sum; time: O(n), space: O(1)
@@ -25,6 +25,27 @@ public class SumOfSortedArray {
             int rightTotal = rightSum - rightCount * nums[i];
             ans[i] = leftTotal + rightTotal;
             leftSum += nums[i];
+        }
+        return ans;
+    }
+
+//    prefix sum; time: O(n), space: O(n) ;
+    public static int[] getSumAbsoluteDifferences1(int[] nums) {
+        int n = nums.length;
+        int[] prefixSum = new int[n];
+        prefixSum[0] = nums[0];
+        for(int i = 1 ; i < n ; i++) {
+            prefixSum[i] = prefixSum[i-1] + nums[i];
+        }
+        int[] ans = new int[n];
+        for(int i = 0 ; i < n ; i++) {
+            int leftSum = prefixSum[i] - nums[i];
+            int rightSum = prefixSum[n-1] - prefixSum[i];
+            int leftCount = i;
+            int rightCount = n - 1 - i;
+            int leftTotal = nums[i] * leftCount - leftSum;
+            int rightTotal = rightSum - nums[i] * rightCount;
+            ans[i] = leftTotal + rightTotal;
         }
         return ans;
     }

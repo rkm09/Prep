@@ -1,11 +1,47 @@
 package leet.medium;
 
+import datastructures.pair.Pair;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class LargestSubMatrix {
     public static void main(String[] args) {
         int[][] matrix = {{0,0,1},{1,1,1},{1,0,1}};
-        System.out.println(largestSubmatrix1(matrix));
+        System.out.println(largestSubmatrix2(matrix));
+    }
+
+//    no sort; time: O(m * n), space: O(m)
+    public static int largestSubmatrix2(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int ans = 0;
+        List<Pair<Integer, Integer>> prevHeights = new ArrayList<>();
+
+        for(int row = 0 ; row < m ; row++) {
+            List<Pair<Integer, Integer>> heights = new ArrayList<>();
+            boolean[] seen = new boolean[n];
+
+            for(Pair<Integer, Integer> pair : prevHeights) {
+                int height = pair.getKey();
+                int col = pair.getValue();
+                if(matrix[row][col] == 1) {
+                    heights.add(new Pair<>(height + 1, col));
+                    seen[col] = true;
+                }
+            }
+            for(int col = 0 ; col < n ; col++) {
+                if(seen[col] == false && matrix[row][col] == 1) {
+                    heights.add(new Pair<>(1, col));
+                }
+            }
+            for(int i = 0 ; i < heights.size() ; i++) {
+                ans = Math.max(ans, heights.get(i).getKey() * (i + 1));
+            }
+            prevHeights = heights;
+        }
+        return ans;
     }
 
 //    sort; time: O(m * nlogn), space: O(m) [as we did not modify the input]
@@ -85,4 +121,6 @@ Overall, each of the mmm iterations costs O(n⋅logn).
 Space complexity: O(m⋅n)
 Although we are only allocating currRow which has a size of O(n), we are modifying matrix. It is generally considered a bad practice to modify the input and when you do, you should count it as part of the space complexity.
 
+no sort:
+heights will remain sorted as long as our assumption that prevHeights was sorted is true. Initially on our first iteration, prevHeights is an empty list. As an empty list is technically sorted, the assumption is true, and at every iteration heights will be sorted!
  */

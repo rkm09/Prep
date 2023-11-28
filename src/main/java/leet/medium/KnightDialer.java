@@ -1,5 +1,7 @@
 package leet.medium;
 
+import java.util.Arrays;
+
 public class KnightDialer {
     static int moves;
     static int[][] memo;
@@ -17,16 +19,7 @@ public class KnightDialer {
             {2,4}
     };
     public static void main(String[] args) {
-        System.out.println(knightDialer(1));
-    }
-    public static int knightDialer(int n) {
-        moves = n;
-        memo = new int[n+1][10];
-        int ans = 0;
-        for(int square = 0 ; square < 10 ; square++) {
-            ans = (ans + dp(n-1, square)) % MOD;
-        }
-        return ans;
+        System.out.println(knightDialer2(2));
     }
     public static int dp(int remain, int square) {
         if(remain == 0) {
@@ -40,6 +33,88 @@ public class KnightDialer {
             ans = (ans + dp(remain - 1, nextSquare)) % MOD;
         }
         memo[remain][square] = ans;
+        return ans;
+    }
+    public static int knightDialer(int n) {
+        moves = n;
+        memo = new int[n][10];
+        int ans = 0;
+        for(int square = 0 ; square < 10 ; square++) {
+            ans = (ans + dp(n-1, square)) % MOD;
+        }
+        return ans;
+    }
+
+//    Iterative DP
+    public static int knightDialer1(int n) {
+        int MOD = (int) 1e9 + 7;
+        int[][] jumps = {
+                {4,6},
+                {6,8},
+                {7,9},
+                {4,8},
+                {3,9,0},
+                {},
+                {1,7,0},
+                {2,6},
+                {1,3},
+                {2,4}
+        };
+        int[][] dp = new int[n][10];
+        for (int square = 0 ; square < 10 ; square++) {
+            dp[0][square] = 1;
+        }
+        for(int remain = 1; remain < n ; remain++) {
+            for(int square = 0 ; square < 10 ; square++) {
+                int ans = 0;
+                for(int nextSquare : jumps[square]) {
+                    ans = (ans + dp[remain - 1][nextSquare]) % MOD;
+                }
+                dp[remain][square] = ans;
+            }
+        }
+        int ans = 0;
+        for(int square = 0 ; square < 10 ; square++) {
+            ans = (ans + dp[n - 1][square]) % MOD;
+        }
+        return ans;
+    }
+
+//    space optimized dp; time: O(n), space: O(1)
+    public static int knightDialer2(int n) {
+        int MOD = (int) 1e9 + 7;
+        int[][] jumps = {
+                {4,6},
+                {6,8},
+                {7,9},
+                {4,8},
+                {3,9,0},
+                {},
+                {1,7,0},
+                {2,6},
+                {1,3},
+                {2,4}
+        };
+        int[] dp = new int[10];
+        int[] prevDp = new int[10];
+        Arrays.fill(prevDp, 1);
+
+        for(int remain = 1 ; remain < n ; remain++) {
+            dp = new int[10];
+            for(int square = 0 ; square < 10 ; square++) {
+                int ans = 0;
+                for(int nextSquare : jumps[square]) {
+                    ans = (ans + prevDp[nextSquare]) % MOD;
+                }
+                dp[square] = ans;
+            }
+            prevDp = dp;
+        }
+
+        int ans = 0;
+        for(int square = 0; square < 10 ; square++) {
+            ans = (ans + prevDp[square]) % MOD;
+        }
         return ans;
     }
 }
@@ -68,4 +143,14 @@ Output: 136006598
 Explanation: Please take care of the mod.
 Constraints:
 1 <= n <= 5000
+
+DP:
+Complexity Analysis
+
+Time complexity: O(n)
+If k is the size of the phone pad, then there are O(n⋅k) states to our DP. Because k=10k = 10k=10 in this problem, we can treat k as a constant and thus there are O(n) states to our DP.
+Due to memoization, we never calculate a state more than once. Since the number of nextSquare is no more than 3 for each square, calculating each state is done in O(1) as we simply perform a for loop that never iterates more than 3 times.
+Overall, we calculate O(n) states with each state costing O(1) to calculate. Thus, our time complexity is O(n).
+Space complexity: O(n)
+The recursion call stack will grow to a size of O(n). With memoization, we also store the results to every DP state. As there are O(n) states, we require O(n) space to store all the results.
  */

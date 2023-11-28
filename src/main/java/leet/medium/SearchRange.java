@@ -9,11 +9,40 @@ import java.util.List;
 public class SearchRange {
     public static void main(String[] args) {
         int[] nums = {5,7,7,8,8,10};
-        int target = 8;
+        int target = 6;
         int[] res = searchRange(nums, target);
         Arrays.stream(res).forEach(System.out::println);
     }
+
     public static int[] searchRange(int[] nums, int target) {
+        int[] res = {-1,-1};
+        int start = 0; int end = nums.length - 1;
+        int mid = (start + end) / 2;
+        while(target != nums[mid] && end - start > 1) {
+            if(target > nums[mid]) {
+                start = mid;
+                mid = (start + end) / 2;
+            } else {
+                end = mid;
+                mid = (start + end) / 2;
+            }
+        }
+
+        if(target == nums[mid]) {
+            int ind = mid;
+            res[0] = mid;
+            while(target == nums[ind]) {
+                ++ind;
+            }
+            res[1] = ind - 1;
+        }
+
+        return res;
+    }
+
+
+//    brute force time: O(n) :|
+    public static int[] searchRange1(int[] nums, int target) {
         int[] res = {-1,-1};
         List<Integer> li = new ArrayList<>();
         for(int i : nums) li.add(i);

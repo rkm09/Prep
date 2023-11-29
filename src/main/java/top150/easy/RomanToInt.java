@@ -5,12 +5,9 @@ import java.util.Map;
 
 public class RomanToInt {
     public static void main(String[] args) {
-        System.out.println(romanToInt1("MCMXCIV"));
+        System.out.println(romanToInt("MCMXCIV"));
     }
 
-    public static int romanToInt1(String s) {
-
-    }
 
 //    def(slow) :|
     public static int romanToInt(String s) {

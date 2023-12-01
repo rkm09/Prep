@@ -1,10 +1,31 @@
 package leet.simple;
 
+import java.util.Arrays;
+
 public class TwoSumLessThanK_1099 {
     public static void main(String[] args) {
         int[] nums = {34,23,1,24,75,33,54,8};
         int k = 60;
-        System.out.println(twoSumLessThanK(nums, k));
+        System.out.println(twoSumLessThanK1(nums, k));
+    }
+
+
+//    2 pointer; time: O(nlogn), space: O(logn) or O(n) depending on the algo
+    public static int twoSumLessThanK1(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int ans = -1;
+        int left = 0, right = n - 1;
+        while(left < right) {
+            int sum = nums[left] + nums[right];
+            if(sum < k) {
+                ans = Math.max(sum, ans);
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return ans;
     }
 
 //    brute force; [def]; time: O(n^2), space: O(1)

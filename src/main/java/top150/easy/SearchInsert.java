@@ -65,4 +65,9 @@ Binary search is a search algorithm that finds the position of a target value wi
 Integer Overflow:
 Let us now stress the fact that pivot = (left + right) / 2 works is fine for Python3, which has arbitrary precision integers, but it could cause some issues in Java and C++.
 If left + right is greater than the maximum int value 2^31−1, it overflows to a negative value. In Java, it would trigger an ArrayIndexOutOfBoundsException, and in C++ it causes an illegal write, which leads to memory corruption and unpredictable results.
+
+Time Complexity: O(log n)
+Using master theorem:
+T(N) = aT(N/b) + O(N^d)
+The equation subdivides problem into a sub problems of size N/b in theta(N^d) time.
  */

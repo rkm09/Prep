@@ -1,6 +1,9 @@
 package leet.simple;
 
-public class CountCharacters_1160 {
+import java.util.HashMap;
+import java.util.Map;
+
+public class CountCharacters1160 {
     public static void main(String[] args) {
         String[] words = {"cat","bt","hat","tree"};
         String chars = "atach";
@@ -9,11 +12,31 @@ public class CountCharacters_1160 {
     public static int countCharacters(String[] words, String chars) {
         int ans = 0;
         int m = chars.length();
+        Map<Character, Integer> hcount = new HashMap<>();
+        for(Character c : chars.toCharArray()) {
+            hcount.put(c, hcount.getOrDefault(c, 0) + 1);
+        }
+        System.out.println(hcount);
         for(int i = 0 ; i < words.length ; i++) {
             int n = words[i].length();
-            if(n < m) continue;
-            for(int j = 0; j < n ; j++) {
-                
+            if(n > m) continue;
+            Map<Character, Integer> hc = new HashMap<>();
+            for(Character c : words[i].toCharArray()) {
+                hc.put(c, hc.getOrDefault(c, 0) + 1);
+            }
+            boolean flag = true;
+            for(Character key : hc.keySet()) {
+                if(!hcount.containsKey(key)) {
+                    flag = false;
+                    break;
+                } else {
+                    if(hc.get(key) > hcount.get(key)) {
+                        flag = false; break;
+                    }
+                }
+            }
+            if(flag) {
+                ans += n;
             }
         }
         return ans;

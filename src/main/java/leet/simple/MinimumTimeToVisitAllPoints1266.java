@@ -5,6 +5,8 @@ public class MinimumTimeToVisitAllPoints1266 {
         int[][] points = {{1,1},{3,4},{-1,0}};
         System.out.println(minTimeToVisitAllPoints(points));
     }
+
+//    time: O(n), space: O(1) [def]
     public static int minTimeToVisitAllPoints(int[][] points) {
         int n = points.length;
         int dist = 0;
@@ -40,4 +42,10 @@ points.length == n
 1 <= n <= 100
 points[i].length == 2
 -1000 <= points[i][0], points[i][1] <= 1000
+
+Approach: Move Diagonally as Much as Possible
+Using this strategy, how do we calculate the required time to travel between two points? We can think of two different stages for the movement:
+Move diagonally until lined up in a direction.
+Move horizontally or vertically the remaining distance.
+This distance is also known as the Chebyshev distance.
  */

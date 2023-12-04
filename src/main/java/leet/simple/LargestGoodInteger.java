@@ -1,10 +1,48 @@
 package leet.simple;
 
+import java.util.List;
+
 public class LargestGoodInteger {
     public static void main(String[] args) {
         String num = "6777133339";
-        System.out.println(largestGoodInteger(num));
+        System.out.println(largestGoodInteger2(num));
     }
+
+//    time: O(n), space: O(1) [more generic than the next approach, but slightly slower]
+    public static String largestGoodInteger2(String num) {
+//        smallest ascii char
+        char maxdigit = '\0';
+        for(int i = 0 ; i <= num.length() - 3 ; i++) {
+            if(num.charAt(i) == num.charAt(i+1)
+                    && num.charAt(i+1) == num.charAt(i+2)) {
+                maxdigit = (char) Math.max(maxdigit, num.charAt(i));
+            }
+        }
+        return maxdigit == '\0' ? "" : new String(new char[]{maxdigit, maxdigit, maxdigit});
+    }
+
+//    time: O(n), space: O(1)
+    public static String largestGoodInteger1(String num) {
+        List<String> nums = List.of("999","888","777","666","555","444","333","222","111","000");
+        for(String pattern : nums) {
+//            default string contains method available yet implementing it here as leetcode has it that way
+//            if(num.contains(k)) return k;
+            if(containsString(num, pattern)) return pattern;
+        }
+        return "";
+    }
+    public static boolean containsString(String num, String pattern) {
+        for(int i = 0 ; i <= num.length() - 3 ; i++) {
+            if(num.charAt(i) == pattern.charAt(0)
+            && num.charAt(i+1) == pattern.charAt(1)
+            && num.charAt(i+2) == pattern.charAt(2)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+//    [def] :|
     public static String largestGoodInteger(String num) {
         int count = 0, ans = -1, digit = 0;
         for(Character c : num.toCharArray()) {

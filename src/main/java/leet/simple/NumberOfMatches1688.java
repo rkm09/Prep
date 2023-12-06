@@ -2,8 +2,15 @@ package leet.simple;
 
 public class NumberOfMatches1688 {
     public static void main(String[] args) {
-        System.out.println(numberOfMatches(7));
+        System.out.println(numberOfMatches1(7));
     }
+
+//    time: O(1), space: O(1)
+    public static int numberOfMatches1(int n) {
+        return n-1;
+    }
+
+//    [def] time: O(log2n), space: O(1) :: at each step we divide by n
     public static int numberOfMatches(int n) {
         int ans = 0, rdr;
         while(n != 1) {
@@ -39,9 +46,12 @@ Explanation: Details of the tournament:
 - 3rd Round: Teams = 4, Matches = 2, and 2 teams advance.
 - 4th Round: Teams = 2, Matches = 1, and 1 team is declared the winner.
 Total number of matches = 7 + 3 + 2 + 1 = 13.
-
-
 Constraints:
-
 1 <= n <= 200
+
+Instead of simulating the entire tournament, here we will directly consider the beginning and end of the tournament.
+In this tournament, when a team loses, they are eliminated and will no longer play any matches.
+There are n teams, and 1 winner. Thus, n - 1 teams will be eliminated.
+Each match is played between two teams. One team wins, one team loses. Thus, each match eliminates exactly one team.
+As n - 1 teams will be eliminated, there will be n - 1 matches played, with each match eliminating a team.
  */

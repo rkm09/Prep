@@ -1,0 +1,56 @@
+package leet.simple;
+
+public class TotalMoney1716 {
+    public static void main(String[] args) {
+        System.out.println(totalMoney1(20));
+    }
+
+//    math; time: O(1), space: O(1)
+    public static int totalMoney1(int n) {
+        int k = n / 7;
+        int F = 28, L = F + (k - 1) * 7;
+        int arithmeticSum = k * (F + L) / 2;
+
+        int monday = 1 + k;
+        int finalWeek = 0;
+        for(int day = 0 ; day < n % 7 ; day++) {
+            finalWeek += monday + day;
+        }
+        return arithmeticSum + finalWeek;
+    }
+
+//    time: O(n), space: O(1)
+    public static int totalMoney(int n) {
+        int ans = 0;
+        int monday = 1;
+        while(n > 0) {
+            for(int day = 0 ; day < Math.min(n, 7) ; day++) {
+                ans += monday + day;
+            }
+            n -= 7;
+            monday++;
+        }
+        return ans;
+    }
+}
+
+/*
+Hercy wants to save money for his first car. He puts money in the Leetcode bank every day.
+He starts by putting in $1 on Monday, the first day. Every day from Tuesday to Sunday, he will put in $1 more than the day before. On every subsequent Monday, he will put in $1 more than the previous Monday.
+Given n, return the total amount of money he will have in the Leetcode bank at the end of the nth day.
+Example 1:
+Input: n = 4
+Output: 10
+Explanation: After the 4th day, the total is 1 + 2 + 3 + 4 = 10.
+Example 2:
+Input: n = 10
+Output: 37
+Explanation: After the 10th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4) = 37. Notice that on the 2nd Monday, Hercy only puts in $2.
+Example 3:
+Input: n = 20
+Output: 96
+Explanation: After the 20th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4 + 5 + 6 + 7 + 8) + (3 + 4 + 5 + 6 + 7 + 8) = 96.
+
+Constraints:
+1 <= n <= 1000
+ */

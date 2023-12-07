@@ -2,8 +2,21 @@ package leet.simple;
 
 public class LargestOddNumber1903 {
     public static void main(String[] args) {
-        System.out.println(largestOddNumber("52"));
+        System.out.println(largestOddNumber1("52"));
     }
+
+//    time: O(n), space: O(1)
+    public static String largestOddNumber1(String num) {
+        int n = num.length();
+        for(int i = n - 1 ; i >= 0 ; i--) {
+            if(Character.getNumericValue(num.charAt(i)) % 2 != 0) {
+                return num.substring(0, i+1);
+            }
+        }
+        return "";
+    }
+
+//    [def] time: O(n), space: O(n)
     public static String largestOddNumber(String num) {
         char[] carr = num.toCharArray();
         int n = carr.length, index = n - 1;

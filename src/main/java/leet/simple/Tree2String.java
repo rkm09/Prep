@@ -2,34 +2,69 @@ package leet.simple;
 
 import leet.medium.TreeNode;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
+
 public class Tree2String {
     public static void main(String[] args) {
         TreeNode node = new TreeNode(4);
         TreeNode right = new TreeNode(3);
         TreeNode left = new TreeNode(2, node, null);
         TreeNode root = new TreeNode(1, left, right);
-        System.out.println(tree2str(root));
+        System.out.println(tree2str1(root));
     }
+
+//    [def] recursive dfs; time: O(n), space: O(n) [was faster]
     public static String tree2str(TreeNode root) {
         StringBuilder sb = new StringBuilder();
-        binaryTreeTraversal(root, sb);
+        dfs(root, sb);
         return sb.toString();
     }
-    private static void binaryTreeTraversal(TreeNode node, StringBuilder sb) {
+    private static void dfs(TreeNode node, StringBuilder sb) {
         if(node == null) return;
         sb.append(node.val);
         if(node.left != null) {
             sb.append("(");
-            binaryTreeTraversal(node.left, sb);
+            dfs(node.left, sb);
             sb.append(")");
         } else if(node.right != null) {
             sb.append("()");
         }
         if(node.right != null) {
             sb.append("(");
-            binaryTreeTraversal(node.right, sb);
+            dfs(node.right, sb);
             sb.append(")");
         }
+    }
+
+//    iterative stack+memo dfs; time: O(n), space: O(n)
+    public static String tree2str1(TreeNode root) {
+        if(root == null) return "";
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        Set<TreeNode> visited = new HashSet<>();
+        StringBuilder sb = new StringBuilder();
+        while(!stack.empty()) {
+            TreeNode node = stack.peek();
+            if(visited.contains(node)) {
+                stack.pop();
+                sb.append(")");
+            } else {
+                visited.add(node);
+                sb.append("(").append(node.val);
+                if(node.left == null && node.right != null) {
+                    sb.append("()");
+                }
+                if(node.right != null) {
+                    stack.push(node.right);
+                }
+                if(node.left != null) {
+                    stack.push(node.left);
+                }
+            }
+        }
+        return sb.substring(1, sb.length() - 1);
     }
 }
 

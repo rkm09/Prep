@@ -13,15 +13,17 @@ public class InorderTraversal94 {
         TreeNode root = new TreeNode(1, null, right);
         System.out.println(inorderTraversal(root));
     }
+
+//    [def]; recursion; time: O(n), space: O(n)
     public static List<Integer> inorderTraversal(TreeNode root) {
-        dfs(root);
+        traverse(root);
         return res;
     }
-    private static void dfs(TreeNode node) {
+    private static void traverse(TreeNode node) {
         if(node == null) return;
-        dfs(node.left);
+        traverse(node.left);
         res.add(node.val);
-        dfs(node.right);
+        traverse(node.right);
     }
 }
 

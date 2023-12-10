@@ -12,7 +12,7 @@ public class TransposeMatrix867 {
         }
     }
     public static int[][] transpose(int[][] matrix) {
-        int row = matrix.length;     
+        int row = matrix.length;
         int col = matrix[0].length;
         int[][] res = new int[col][row];
         for(int i = 0 ; i < col ; i++) {

@@ -11,13 +11,14 @@ public class TransposeMatrix867 {
             System.out.println(Arrays.toString(ar));
         }
     }
+//    [def]; time: O(R*C), space: O(R*C)
     public static int[][] transpose(int[][] matrix) {
         int row = matrix.length;
         int col = matrix[0].length;
         int[][] res = new int[col][row];
-        for(int i = 0 ; i < col ; i++) {
-            for(int j = 0 ; j < row ; j++) {
-                res[i][j] = matrix[j][i];
+        for(int r = 0 ; r < col ; r++) {
+            for(int c = 0 ; c < row ; c++) {
+                res[r][c] = matrix[c][r];
             }
         }
         return res;

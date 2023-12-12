@@ -5,12 +5,30 @@ import java.util.Arrays;
 public class MaximumProduct1464 {
     public static void main(String[] args) {
         int[] nums = {3,4,5,2};
-        System.out.println(maxProduct(nums));
+        System.out.println(maxProduct1(nums));
     }
+
+//    track second biggest; time: O(n), space: O(1)
+    public static int maxProduct1(int[] nums) {
+        int biggest = 0 ;
+        int secondBiggest = 0;
+        for(int num : nums) {
+            if(num > biggest) {
+                secondBiggest = biggest;
+                biggest = num;
+            } else {
+                secondBiggest = Math.max(secondBiggest, num);
+            }
+        }
+        return (biggest - 1) * (secondBiggest - 1);
+    }
+
+//    [def]; time: O(nlogn), space: O(logn)
     public static int maxProduct(int[] nums) {
         Arrays.sort(nums);
-        int n = nums.length;
-        return (nums[n-1]-1)*(nums[n-2]-1);
+        int x = nums[nums.length - 1];
+        int y = nums[nums.length - 2];
+        return (x-1) * (y-1);
     }
 }
 /*

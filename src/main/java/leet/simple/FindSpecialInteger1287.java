@@ -6,7 +6,52 @@ import java.util.Map;
 public class FindSpecialInteger1287 {
     public static void main(String[] args) {
         int[] arr = {1,2,2,6,6,6,6,7,10};
-        System.out.println(findSpecialInteger(arr));
+        System.out.println(findSpecialInteger3(arr));
+    }
+
+//    binary search; time: O(logn), space: O(1)
+    public static int findSpecialInteger3(int[] arr) {
+//        {1,2,(3),3,(3),4,(5),5,6} -- 9/4 = 2 ; 9/2 = 4; 27/4 = 6
+//        {1,2,2,2,3,4,5,5,6}
+        int n = arr.length;
+        int[] candidates = {arr[n / 4], arr[n / 2], arr[3 * n / 4]};
+        int target = n / 4;
+        for(int candidate : candidates) {
+            int left = lower_bound(arr, candidate);
+            int right = upper_bound(arr, candidate) - 1;
+            if(right - left + 1 > target) {
+                return candidate;
+            }
+        }
+        return -1;
+    }
+
+    private static int lower_bound(int[] arr, int target) {
+        int left = 0;
+        int right = arr.length;
+        while(left < right) {
+            int mid = left + (right - left) / 2;
+            if(arr[mid] >= target) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    private static int upper_bound(int[] arr, int target) {
+        int left = 0;
+        int right = arr.length;
+        while(left < right) {
+            int mid = left + (right - left) / 2;
+            if(arr[mid] > target) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
     }
 
 //    count ahead; time: O(n), space: O(1)

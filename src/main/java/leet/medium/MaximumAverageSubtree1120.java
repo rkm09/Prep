@@ -7,7 +7,7 @@ public class MaximumAverageSubtree1120 {
         TreeNode right = new TreeNode(1);
         TreeNode root = new TreeNode(5, left, right);
         MaximumAverageSubtree1120 maxAvg = new MaximumAverageSubtree1120();
-        System.out.println(maxAvg.maximumAverageSubtree1(root));
+        System.out.println(maxAvg.maximumAverageSubtree2(root));
     }
 
     class State {
@@ -39,7 +39,22 @@ public class MaximumAverageSubtree1120 {
         return  new State(nodeCount, sumValue, maxAverage);
     }
 
-//    Another way;
+//    without updating in place;
+    public double maximumAverageSubtree2(TreeNode root) {
+        return helper1(root)[2];
+    }
+    private double[] helper1(TreeNode node) {
+        if(node == null) return new double[]{0,0,0};
+        double[] left = helper1(node.left);
+        double[] right = helper1(node.right);
+        double maxChild = Math.max(left[2], right[2]);
+        double sum = left[0] + right[0] + node.val;
+        double count = left[1] + right[1] + 1;
+        double maxAverage = Math.max(sum/count, maxChild);
+        return new double[] {sum, count, maxAverage};
+    }
+
+//    Another way (updating in place);
     public double maximumAverageSubtree1(TreeNode root) {
         helper(root);
         return average;

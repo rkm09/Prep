@@ -39,7 +39,7 @@ public class MaximumAverageSubtree1120 {
         return  new State(nodeCount, sumValue, maxAverage);
     }
 
-//    without updating in place;
+//    without updating in place; can use Pair too..with avg as a separate variable
     public double maximumAverageSubtree2(TreeNode root) {
         return helper1(root)[2];
     }

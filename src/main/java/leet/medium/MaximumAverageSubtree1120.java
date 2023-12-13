@@ -5,33 +5,44 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MaximumAverageSubtree {
+public class MaximumAverageSubtree1120 {
     static Set<TreeNode> visited = new HashSet<>();
     static Map<TreeNode, Integer> hmap = new HashMap<>();
     public static void main(String[] args) {
         TreeNode left = new TreeNode(6);
         TreeNode right = new TreeNode(1);
         TreeNode root = new TreeNode(5, left, right);
-        System.out.println(maximumAverageSubtree(root));
+        MaximumAverageSubtree1120 maxAvg = new MaximumAverageSubtree1120();
+        System.out.println(maxAvg.maximumAverageSubtree(root));
     }
-    public static double maximumAverageSubtree(TreeNode root) {
-        double avg =  0.0;
-        dfs(root, avg);
-        return avg;
-    }
-    private static void dfs(TreeNode node, double avg) {
-        if(node == null) return;
-        if(node.left == null && node.right == null) return;
-        dfs(node.left, avg);
-        avg = Math.max(avg, node.val);
-        if(visited.contains(node)) {
-            hmap.getOrDefault(node, 0);
-        } else {
-            visited.add(node);
-            hmap.put(node, node.val);
-        }
 
-        dfs(node.right, avg);
+    class State {
+        int nodeCount;
+        int sumValue;
+        double maxAverage;
+        State(int nodeCount, int sumValue, double maxAverage) {
+            this.nodeCount = nodeCount;
+            this.sumValue = sumValue;
+            this.maxAverage = maxAverage;
+        }
+    }
+
+//    Postorder traversal; time: O(N), space: O(N)
+    public double maximumAverageSubtree(TreeNode root) {
+        return maxAverage(root).maxAverage;
+    }
+    private State maxAverage(TreeNode node) {
+        if(node == null) {
+            return new State(0,0,0);
+        }
+        State left = maxAverage(node.left);
+        State right = maxAverage(node.right);
+
+        int nodeCount = left.nodeCount + right.nodeCount + 1;
+        int sumValue = left.sumValue + right.sumValue + node.val;
+        double maxAverage = Math.max((1.0 * sumValue) / nodeCount, Math.max(left.maxAverage, right.maxAverage));
+
+        return  new State(nodeCount, sumValue, maxAverage);
     }
 }
 

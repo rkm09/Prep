@@ -1,19 +1,13 @@
 package leet.medium;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 public class MaximumAverageSubtree1120 {
-    static Set<TreeNode> visited = new HashSet<>();
-    static Map<TreeNode, Integer> hmap = new HashMap<>();
+    private double average = 0.0;
     public static void main(String[] args) {
         TreeNode left = new TreeNode(6);
         TreeNode right = new TreeNode(1);
         TreeNode root = new TreeNode(5, left, right);
         MaximumAverageSubtree1120 maxAvg = new MaximumAverageSubtree1120();
-        System.out.println(maxAvg.maximumAverageSubtree(root));
+        System.out.println(maxAvg.maximumAverageSubtree1(root));
     }
 
     class State {
@@ -43,6 +37,26 @@ public class MaximumAverageSubtree1120 {
         double maxAverage = Math.max((1.0 * sumValue) / nodeCount, Math.max(left.maxAverage, right.maxAverage));
 
         return  new State(nodeCount, sumValue, maxAverage);
+    }
+
+//    Another way;
+    public double maximumAverageSubtree1(TreeNode root) {
+        helper(root);
+        return average;
+    }
+    private int helper(TreeNode node) {
+        if(node == null) return 0;
+        int left = helper(node.left);
+        int right = helper(node.right);
+        int count = left + right + 1;
+        if(left != 0) {
+            node.val += node.left.val;
+        }
+        if(right != 0) {
+            node.val += node.right.val;
+        }
+        average = Math.max(average, (double)(node.val)/ count);
+        return count;
     }
 }
 

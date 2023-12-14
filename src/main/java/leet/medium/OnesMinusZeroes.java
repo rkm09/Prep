@@ -11,6 +11,7 @@ public class OnesMinusZeroes {
         }
     }
 
+//    time: O(M*N), space: O(M+N)
     public static int[][] onesMinusZeros1(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -20,10 +21,6 @@ public class OnesMinusZeroes {
         for(int row = 0; row < m ; row++) {
             for(int col = 0; col < n; col++) {
                 rowCnt[row] += grid[row][col];
-            }
-        }
-        for(int col = 0; col < n ; col++) {
-            for(int row = 0; row < m ; row++) {
                 colCnt[col] += grid[row][col];
             }
         }
@@ -36,7 +33,7 @@ public class OnesMinusZeroes {
         return res;
     }
 
-//    [def]; TLE :|
+//    [def] brute force; TLE :| ; time: O(M*N(M+N)), space: O(1)
     public static int[][] onesMinusZeros(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;

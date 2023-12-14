@@ -1,4 +1,4 @@
-package leet.medium;
+package top150.medium;
 
 import java.util.Arrays;
 

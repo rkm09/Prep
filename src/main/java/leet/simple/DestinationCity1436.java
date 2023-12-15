@@ -1,19 +1,32 @@
 package leet.simple;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class DestinationCity {
+public class DestinationCity1436 {
     public static void main(String[] args) {
         List<List<String>> paths = new ArrayList<>();
         List<String> path1 = List.of("B","C");
         List<String> path2 = List.of("D","B");
         List<String> path3 = List.of("C","A");
         paths.add(path1); paths.add(path2); paths.add(path3);
-        System.out.println(destCity(paths));
+        System.out.println(destCity2(paths));
      }
+
+    public static String destCity2(List<List<String>> paths) {
+        Set<String> hasOutgoing = new HashSet<>();
+        for(int i = 0 ; i < paths.size() ; i++) {
+            hasOutgoing.add(paths.get(i).get(0));
+        }
+        for(int i = 0 ; i < paths.size() ; i++) {
+            String candidate = paths.get(i).get(1);
+            if(!hasOutgoing.contains(candidate)) {
+                return candidate;
+            }
+        }
+        return "";
+    }
+
+//  [def] hashmap; time: O(n^2), space: O(n)
     public static String destCity(List<List<String>> paths) {
         Map<String, Integer> count = new HashMap<>();
         for(List<String> path : paths) {
@@ -29,6 +42,23 @@ public class DestinationCity {
                         return key;
                     }
                 }
+            }
+        }
+        return "";
+    }
+    //     brute force; time: O(n^2), space: O(1)
+    public static String destCity1(List<List<String>> paths) {
+        for(int i = 0 ; i < paths.size() ; i++) {
+            String candidate = paths.get(i).get(1);
+            boolean good = true;
+            for(int j = 0 ; j < paths.size() ; j++) {
+                if(paths.get(j).get(0).equals(candidate)) {
+                    good = false;
+                    break;
+                }
+            }
+            if(good) {
+                return candidate;
             }
         }
         return "";

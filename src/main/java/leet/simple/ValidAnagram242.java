@@ -5,9 +5,24 @@ import java.util.Arrays;
 public class ValidAnagram242 {
     public static void main(String[] args) {
         String s = "anagram", t = "nagaram";
-        System.out.println(isAnagram(s, t));
+        System.out.println(isAnagram1(s, t));
     }
-//    [def] sort; time: O(nlogn), space: O(n) 
+
+//    freq counter; time: O(n), space: O(1) as the table size is constant
+    public static boolean isAnagram1(String s, String t) {
+        if(s.length() != t.length()) return false;
+        int[] counter = new int[26];
+        for(int i = 0 ; i < s.length() ; i++) {
+            counter[s.charAt(i) - 'a']++;
+            counter[t.charAt(i) - 'a']--;
+        }
+        for(int count : counter) {
+            if(count < 0) return false;
+        }
+        return true;
+    }
+
+//    [def] sort; time: O(nlogn), space: O(n)
     public static boolean isAnagram(String s, String t) {
         if(s.length() != t.length()) return false;
         char[] sarr = s.toCharArray();

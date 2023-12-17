@@ -1,37 +1,73 @@
 package leet.medium;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+
 public class FoodRatingSystem2353 {
     public static void main(String[] args) {
-
+        String[] foods = {"kimchi", "miso", "sushi", "moussaka", "ramen", "bulgogi"};
+        String[] cuisines = {"korean", "japanese", "japanese", "greek", "japanese", "korean"};
+        int[] ratings = {9, 12, 8, 15, 14, 7};
+        FoodRatings foodRatings = new FoodRatings(foods, cuisines, ratings);
+        System.out.println(foodRatings.highestRated("korean"));
+        System.out.println(foodRatings.highestRated("japanese"));
+        foodRatings.changeRating("sushi", 16);
+        System.out.println(foodRatings.highestRated("japanese"));
+        foodRatings.changeRating("ramen", 16);
+        System.out.println(foodRatings.highestRated("japanese"));
     }
 }
 
 class FoodRatings {
-    String[] foods, cuisines;
-    int[] ratings;
+
+    private Map<String, Integer> foodRatingMap;
+    private Map<String, String> foodCuisineMap;
+    private Map<String, PriorityQueue<Food>> cuisineFoodMap;
 
     public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
-        this.foods = foods;
-        this.cuisines = cuisines;
-        this.ratings = ratings;
-    }
-
-    public void changeRating(String food, int newRating) {
+        foodRatingMap = new HashMap<>();
+        foodCuisineMap = new HashMap<>();
+        cuisineFoodMap = new HashMap<>();
         for(int i = 0 ; i < foods.length ; i++) {
-            if(foods[i].equals(food)) {
-                ratings[i] = newRating;
-            }
+            foodRatingMap.put(foods[i], ratings[i]);
+            foodCuisineMap.put(foods[i], cuisines[i]);
+            cuisineFoodMap.computeIfAbsent(cuisines[i], k -> new PriorityQueue<>()).add(new Food(ratings[i], foods[i]));
         }
     }
 
+    public void changeRating(String food, int newRating) {
+        foodRatingMap.put(food, newRating);
+        String cuisineName = foodCuisineMap.get(food);
+        cuisineFoodMap.get(cuisineName).add(new Food(newRating, food));
+    }
+
     public String highestRated(String cuisine) {
-        for(int i = 0 ; i < cuisines.length ; i++) {
-            if(cuisines[i].equals(cuisine)) {
-                return foods[i];
-            }
-        } return "";
+        Food highestRated = cuisineFoodMap.get(cuisine).peek();
+        while(foodRatingMap.get(highestRated.foodName) != highestRated.foodRating) {
+            cuisineFoodMap.get(cuisine).poll();
+            highestRated = cuisineFoodMap.get(cuisine).peek();
+        }
+        return highestRated.foodName;
     }
 }
+
+class Food implements Comparable<Food>{
+    public int foodRating;
+    public String foodName;
+    public Food(int foodRating, String foodName) {
+        this.foodRating = foodRating;
+        this.foodName = foodName;
+    }
+    @Override
+    public int compareTo(Food other) {
+        if(foodRating == other.foodRating) {
+            return foodName.compareTo(other.foodName);
+        }
+        return -1 * Integer.compare(foodRating, other.foodRating);
+    }
+}
+
 
 
 /*

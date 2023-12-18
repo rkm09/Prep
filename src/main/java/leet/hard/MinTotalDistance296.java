@@ -28,9 +28,9 @@ public class MinTotalDistance296 {
         int row = rows.get(rows.size() / 2);
         Collections.sort(cols);
         int col = cols.get(cols.size() / 2);
-        return minDist(rows, row) + minDist(cols, col);
+        return minDistance1D(rows, row) + minDistance1D(cols, col);
     }
-    private static int minDist(List<Integer> points, int origin) {
+    private static int minDistance1D(List<Integer> points, int origin) {
         int distance = 0;
         for(int point : points) {
             distance += Math.abs(point - origin);

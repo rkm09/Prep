@@ -19,6 +19,7 @@ public class FoodRatingSystem2353 {
     }
 }
 
+// time : O(nlogn + m(log(n+m))), space: O(n+m)
 class FoodRatings {
 
     private Map<String, Integer> foodRatingMap;
@@ -102,4 +103,15 @@ All the strings in foods are distinct.
 food will be the name of a food item in the system across all calls to changeRating.
 cuisine will be a type of cuisine of at least one food item in the system across all calls to highestRated.
 At most 2 * 104 calls in total will be made to changeRating and highestRated.
+
+One way is to search for the food in the foods array and then update the rating at the respective index in the ratings array. However, searching for food in the foods array for every update will not be efficient.
+Instead, we should keep the food names mapped with their ratings, we can use a hash map (named foodRatingMap) and this hash map will enable quick retrieval and modification of the respective food's rating.
+To change the rating of any food, we simply update the rating stored in this foodRatingMap.
+However, retrieving the highest-rated food would require iterating over all the foods of that particular cuisine each time. If we could maintain the food in cuisineFoodMap arrays in a sorted order (sorted according to ratings) then it might save us some time.
+You might be thinking of sorting the array using the in-built sort() method, but if any element of the array changes (i.e. rating of any food changes) we will have to again sort the whole array using the sort() method, this will make the algorithm inefficient.
+Max-heap data structure is a complete binary tree, where the parent nodes are always bigger than the corresponding child nodes, in order to keep the maximum-valued element at the root node of the tree. Here, pushing and popping an element are both logarithmic time operations, but getting the maximum-valued element is a constant time operation.
+We will use priority queues which are internally implemented using a heap.
+Firstly, searching for elements in the priority queue is a time-consuming task as in the worst case we would have to iterate over all elements stored in the priority queue.
+Secondly, we can avoid the deletion of old rating elements.
+
  */

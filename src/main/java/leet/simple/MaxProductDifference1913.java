@@ -5,8 +5,34 @@ import java.util.Arrays;
 public class MaxProductDifference1913 {
     public static void main(String[] args) {
         int[] nums = {5,6,2,7,4};
-        System.out.println(maxProductDifference(nums));
+        System.out.println(maxProductDifference1(nums));
     }
+
+//    track pointers; time: O(n), space: O(1)
+    public static int maxProductDifference1(int[] nums) {
+        int max = 0, secondMax = 0, min = Integer.MAX_VALUE, secondMin = Integer.MAX_VALUE;
+        for(int num : nums) {
+            if(num < max) {
+                if(num > secondMax) {
+                    secondMax = num;
+                }
+            } else {
+                secondMax = max;
+                max = num;
+            }
+            if(num > min) {
+                if(num < secondMin) {
+                    secondMin = num;
+                }
+            } else {
+                secondMin = min;
+                min = num;
+            }
+        }
+        return max * secondMax - min * secondMin;
+    }
+
+//    sort; time: O(nlogn), space: O(1)
     public static int maxProductDifference(int[] nums) {
         Arrays.sort(nums);
         int n = nums.length;
@@ -31,5 +57,5 @@ Explanation: We can choose indices 3 and 6 for the first pair (9, 8) and indices
 The product difference is (9 * 8) - (2 * 4) = 64.
 Constraints:
 4 <= nums.length <= 104
-1 <= nums[i] <= 104
+1 <= num <= 104
  */

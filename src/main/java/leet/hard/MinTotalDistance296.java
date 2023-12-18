@@ -13,6 +13,7 @@ public class MinTotalDistance296 {
 //    1 0 0 0 1
 //    0 0 0 0 0
 //    0 0 1 0 0
+//    median; time: O(mnlogmn), space: O(mn)
     public static int minTotalDistance(int[][] grid) {
         List<Integer> rows = new ArrayList<>();
         List<Integer> cols = new ArrayList<>();

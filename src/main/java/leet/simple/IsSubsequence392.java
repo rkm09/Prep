@@ -2,7 +2,7 @@ package leet.simple;
 
 import java.util.*;
 
-public class IsSubsequence {
+public class IsSubsequence392 {
     public static void main(String[] args) {
         String s = "abc";
         String t = "ahbgdc";
@@ -45,6 +45,25 @@ public class IsSubsequence {
         if(source.charAt(leftIndex) == target.charAt(rightIndex)) leftIndex++;
         rightIndex++;
         return rec_subSequence(leftIndex, rightIndex, source, target);
+    }
+
+//    [def] 2 pointer; time: O(n); faster
+    public boolean isSubsequence4(String s, String t) {
+        int m = s.length(), n = t.length();
+        if(m == 0) return true;
+        char[] sarr = s.toCharArray();
+        char[] tarr = t.toCharArray();
+        int i = 0, j = t.indexOf(sarr[0]);
+        if(j == -1) return false;
+        while(i < m && j < n) {
+            if(sarr[i] == tarr[j]) {
+                i++; j++;
+                continue;
+            } else {
+                j++;
+            }
+        }
+        return i == m;
     }
 }
 

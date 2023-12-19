@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class ImageSmoother661 {
     public static void main(String[] args) {
         int[][] img = {{1,1,1}, {1,0,1}, {1,1,1}};
-        int[][] res = imageSmoother(img);
+        int[][] res = imageSmoother2(img);
         for(int[] row : res) {
             System.out.println(Arrays.toString(row));
         }
@@ -13,7 +13,7 @@ public class ImageSmoother661 {
 //    1 1 1
 //    1 0 1
 //    1 1 1
-//    bit manipulation; time: O(m.n), space: O(1)
+//    bit manipulation; time: O(m.n), space: O(1); faster;
     public static int[][] imageSmoother(int[][] img) {
         int m = img.length;
         int n = img[0].length;
@@ -39,6 +39,56 @@ public class ImageSmoother661 {
         }
         return img;
     }
+
+//    basic, space optimized; time: O(mn), space: O(1)
+    public static int[][] imageSmoother2(int[][] img) {
+        int m = img.length;
+        int n = img[0].length;
+        for(int row = 0 ; row < m ; row++) {
+            for(int col = 0 ; col < n ; col++) {
+                int sum = 0;
+                int count = 0;
+                for(int r = row - 1 ; r <= row + 1 ; r++) {
+                    for(int c = col - 1 ; c <= col + 1 ; c++) {
+                        if(r >= 0 && r < m && c >= 0 && c < n) {
+                            sum += img[r][c] % 256;
+                            count += 1;
+                        }
+                    }
+                }
+                img[row][col] += (sum / count) * 256;
+            }
+        }
+        for(int row = 0 ; row < m ; row++) {
+            for(int col = 0 ; col < n ; col++) {
+                img[row][col] /= 256;
+            }
+        }
+        return img;
+    }
+
+//    basic; time: O(mn), space: O(mn)
+    public static int[][] imageSmoother1(int[][] img) {
+        int m = img.length;
+        int n = img[0].length;
+        int[][] smoothened = new int[m][n];
+        for(int row = 0 ; row < m ; row++) {
+            for(int col = 0 ; col < n ; col++) {
+                int sum = 0;
+                int count = 0;
+                for(int r = row - 1 ; r <= row + 1 ; r++) {
+                    for(int c = col - 1 ; c <= col + 1; c++) {
+                        if(r >= 0 && r < m && c >= 0 && c < n) {
+                            sum += img[r][c];
+                            count += 1;
+                        }
+                    }
+                }
+                smoothened[row][col] = (sum / count);
+            }
+        }
+        return smoothened;
+    }
 }
 /*
 An image smoother is a filter of the size 3 x 3 that can be applied to each cell of an image by rounding down the average of the cell and the eight surrounding cells (i.e., the average of the nine cells in the blue smoother). If one or more of the surrounding cells of a cell is not present, we do not consider it in the average
@@ -60,4 +110,12 @@ m == img.length
 n == img[i].length
 1 <= m, n <= 200
 0 <= img[i][j] <= 255
+
+Key notes:
+1-1 correspondence between:
+
+*** Bitwise AND(&) with 255 == modulo by 256 (extract)
+*** Leftshift (<<) by 8 bits == multiply by 256 (move)
+*** Bitwise OR(|) with smoothened img values == ADD smoothened img values to img (embed)
+*** Rightshift (>>) by 8 bits == divide by 256 (move)
  */

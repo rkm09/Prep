@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class CopyRandomList138 {
     static Map<Node, Node> visitedNodeMap = new HashMap<>();
+
     public static void main(String[] args) {
         Node head = new Node(3);
         Node one = new Node(3);
@@ -13,16 +14,16 @@ public class CopyRandomList138 {
         head.next = one;
         one.next = two;
         one.random = head;
-        Node node = copyRandomList(head);
+        Node node = copyRandomList2(head);
         System.out.println(node.next.val);
     }
 
-//    recursion; time: O(n), space: O(n)
+    //    recursion; time: O(n), space: O(n)
     public static Node copyRandomList(Node head) {
-        if(head == null) {
+        if (head == null) {
             return null;
         }
-        if(visitedNodeMap.get(head) != null) {
+        if (visitedNodeMap.containsKey(head)) {
             return visitedNodeMap.get(head);
         }
         Node node = new Node(head.val);
@@ -31,7 +32,68 @@ public class CopyRandomList138 {
         node.random = copyRandomList(head.random);
         return node;
     }
+
+//    iterative; time: O(n), space:O(n)
+    public static Node copyRandomList1(Node head) {
+        if(head == null) {
+            return null;
+        }
+        Node oldNode = head;
+        Node newNode = new Node(oldNode.val);
+        visitedNodeMap.put(oldNode, newNode);
+        while(oldNode != null) {
+            newNode.random = getClonedNode(oldNode.random);
+            newNode.next = getClonedNode(oldNode.next);
+            oldNode = oldNode.next;
+            newNode = newNode.next;
+        }
+        return visitedNodeMap.get(head);
+    }
+    private static Node getClonedNode(Node node) {
+        if(node != null) {
+            if (visitedNodeMap.containsKey(node)) {
+                return visitedNodeMap.get(node);
+            }
+            visitedNodeMap.put(node, new Node(node.val));
+            return visitedNodeMap.get(node);
+        }
+        return null;
+    }
+
+//    iterative, constant space; time: O(n), space: O(1)
+//    interweave A->A'->B->B'->C->C'
+    public static Node copyRandomList2(Node head) {
+        if(head == null) {
+            return null;
+        }
+        Node oldNodePtr = head;
+        while(oldNodePtr != null) {
+            Node newNodePtr = new Node(oldNodePtr.val);
+            newNodePtr.next = oldNodePtr.next;
+            oldNodePtr.next = newNodePtr;
+            oldNodePtr = newNodePtr.next;
+        }
+//        interweave random
+        oldNodePtr = head;
+        while(oldNodePtr != null) {
+            oldNodePtr.next.random = (oldNodePtr.random != null) ? oldNodePtr.random.next : null;
+            oldNodePtr = oldNodePtr.next.next;
+        }
+
+//      separate out both lists again
+        Node oldNodeList = head;
+        Node newNodeList = head.next;
+        Node newHead = head.next;
+        while(oldNodeList != null) {
+            oldNodeList.next = oldNodeList.next.next;
+            newNodeList.next = (oldNodeList.next != null) ? oldNodeList.next.next : null;
+            oldNodeList = oldNodeList.next;
+            newNodeList = newNodeList.next;
+        }
+        return newHead;
+    }
 }
+
 class Node {
     int val;
     Node next;
@@ -47,7 +109,7 @@ class Node {
 }
 /*
 A linked list of length n is given such that each node contains an additional random pointer, which could point to any node in the list, or null.
-Construct a deep copy of the list. The deep copy should consist of exactly n brand new nodes, where each new node has its value set to the value of its corresponding original node. Both the next and random pointer of the new nodes should point to new nodes in the copied list such that the pointers in the original list and copied list represent the same list state. None of the pointers in the new list should point to nodes in the original list.
+Construct a deep copy of the list. The deep copy should consist of exactly n new nodes, where each new node has its value set to the value of its corresponding original node. Both the next and random pointer of the new nodes should point to new nodes in the copied list such that the pointers in the original list and copied list represent the same list state. None of the pointers in the new list should point to nodes in the original list.
 For example, if there are two nodes X and Y in the original list, where X.random --> Y, then for the corresponding two nodes x and y in the copied list, x.random --> y.
 Return the head of the copied linked list.
 The linked list is represented in the input/output as a list of n nodes. Each node is represented as a pair of [val, random_index] where:

@@ -1,6 +1,8 @@
 package top150.medium;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class LongestIncreasingSubseq300 {
     public static void main(String[] args) {
@@ -27,6 +29,57 @@ public class LongestIncreasingSubseq300 {
             longest = Math.max(longest, num);
         }
         return longest;
+    }
+
+//    another approach which only guarantees correct length but not order; time: O(n^2), space: O(n)
+    public static int lengthOfLIS1(int[] nums) {
+        List<Integer> sub = new ArrayList<>();
+        sub.add(nums[0]);
+        for(int i = 1 ; i < nums.length ; i++) {
+            if(nums[i] > sub.get(sub.size() - 1)) {
+                sub.add(nums[i]);
+            } else {
+                int j = 0;
+                while(nums[i] > sub.get(j)) {
+                    j++;
+                }
+                sub.set(j, nums[i]);
+            }
+        }
+        return sub.size();
+    }
+
+//    improvement on above with binary search; time: O(nlogn), space: O(n)
+    public static int lengthOfLIS2(int[] nums) {
+        List<Integer> sub = new ArrayList<>();
+        sub.add(nums[0]);
+        for(int i = 1 ; i < nums.length ; i++) {
+            if(nums[i] > sub.get(sub.size() - 1)) {
+                sub.add(nums[i]);
+            } else {
+                int j = binarySearch(sub, nums[i]);
+                sub.set(j, nums[i]);
+            }
+        }
+        return sub.size();
+    }
+    
+    private static int binarySearch(List<Integer> sub, int num) {
+        int left = 0 ;
+        int right = sub.size() - 1;
+        while(left < right) {
+            int mid = left + (right - left) / 2;
+            if(num == sub.get(mid)) {
+                return mid;
+            } else {
+                if(num > sub.get(mid)) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
+                }
+            }
+        }
+        return left;
     }
 }
 

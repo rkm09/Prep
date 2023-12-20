@@ -63,7 +63,7 @@ public class LongestIncreasingSubseq300 {
         }
         return sub.size();
     }
-    
+
     private static int binarySearch(List<Integer> sub, int num) {
         int left = 0 ;
         int right = sub.size() - 1;

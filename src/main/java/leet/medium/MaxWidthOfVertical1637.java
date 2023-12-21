@@ -1,13 +1,27 @@
 package leet.medium;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class MaxWidthOfVertical1637 {
     public static void main(String[] args) {
         int[][] points = {{8,7},{9,9},{7,4},{9,7}};
-        System.out.println(maxWidthOfVerticalArea(points));
+        System.out.println(maxWidthOfVerticalArea1(points));
     }
-//    [def];
+
+//    sort; time: (nlogn), space: O(logn) 
+    public static int maxWidthOfVerticalArea1(int[][] points) {
+//        Arrays.sort(points, (a,b) -> Integer.compare(a[0],b[0]);
+//        Arrays.sort(points, (a,b) -> (a[0]-b[0]);
+        Arrays.sort(points, Comparator.comparingInt(a -> a[0]));
+        int res = 0, n = points.length;
+        for(int i = 1 ; i < n ; i++) {
+            res = Math.max(res, points[i][0] - points[i-1][0]);
+        }
+        return res;
+    }
+
+//    [def]; time: O(nlogn), space: O(n) faster than above
     public static int maxWidthOfVerticalArea(int[][] points) {
         int m = points.length;
         int[] xcoor = new int[m];

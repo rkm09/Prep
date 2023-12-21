@@ -9,7 +9,7 @@ public class MaxWidthOfVertical1637 {
         System.out.println(maxWidthOfVerticalArea1(points));
     }
 
-//    sort; time: (nlogn), space: O(logn) 
+//    sort; time: (nlogn), space: O(logn)
     public static int maxWidthOfVerticalArea1(int[][] points) {
 //        Arrays.sort(points, (a,b) -> Integer.compare(a[0],b[0]);
 //        Arrays.sort(points, (a,b) -> (a[0]-b[0]);

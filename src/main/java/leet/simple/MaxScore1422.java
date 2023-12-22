@@ -3,10 +3,49 @@ package leet.simple;
 public class MaxScore1422 {
     public static void main(String[] args) {
         String s = "011101";
-        System.out.println(maxScore(s));
+        System.out.println(maxScore2(s));
     }
 
-//     brute force [def];
+//    one pass; time: O(n), space: O(1)
+//    Score = ZeroL + OneR => ZeroL + (TotalOnes[a constant] - OneL) => (ZeroL - OneL) + TotalOnes
+    public static int maxScore2(String s) {
+        int ones = 0, zeroes = 0, n = s.length();
+        int best = Integer.MIN_VALUE;
+        for(int i = 0 ; i < n - 1; i++) {
+            if(s.charAt(i) == '1') {
+                ones++;
+            } else {
+                zeroes++;
+            }
+            best = Math.max(best, zeroes - ones);
+        }
+        if(s.charAt(n - 1) == '1') {
+            ones++;
+        }
+        return best + ones;
+    }
+
+//    two pass; time: O(n), space: O(1)
+    public static int maxScore1(String s) {
+        int zeroes = 0, ones = 0, max = 0;
+        int n = s.length();
+        for(int i = 0 ; i < n ; i++) {
+            if(s.charAt(i) == '1') {
+                ones++;
+            }
+        }
+        for(int i = 0 ; i < n - 1 ; i++) {
+            if(s.charAt(i) == '1') {
+                ones--;
+            } else {
+                zeroes++;
+            }
+            max = Math.max(max, zeroes + ones);
+        }
+        return max;
+    }
+
+//     brute force [def]; time: O(n^2), space: O(1)
     public static int maxScore(String s) {
         int n = s.length(), max = Integer.MIN_VALUE;
         for(int i = 1 ; i <= n ; i++) {
